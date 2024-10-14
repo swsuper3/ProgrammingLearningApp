@@ -10,8 +10,10 @@ namespace ProgrammingLearningApp
     public class Character
     {
         public Direction ViewDirection { get { return viewDirection.Value; } }
+        public Point Position { get; private set; }
 
         LinkedListNode<Direction> viewDirection;
+        Point position;
 
         public Character()
         {
@@ -19,8 +21,9 @@ namespace ProgrammingLearningApp
 
             LinkedList<Direction> ll = new LinkedList<Direction>(directions);
 
-            viewDirection = ll.First;
+            viewDirection = ll.First.NextOrFirst();
 
+            this.position = new Point();
         }
     }
 
@@ -43,5 +46,23 @@ namespace ProgrammingLearningApp
         East,
         South,
         West
+    }
+
+    public struct Point
+    {
+        public int x;
+        public int y;
+
+        public Point()
+        {
+            this.x = 0;
+            this.y = 0;
+        }
+
+        public Point(int x, int y)
+        {
+            this.x = y;
+            this.y = y;
+        }
     }
 }
