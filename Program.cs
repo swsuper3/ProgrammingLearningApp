@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProgrammingLearningApp
+﻿namespace ProgrammingLearningApp
 {
     public class Program
     {
@@ -48,14 +42,17 @@ namespace ProgrammingLearningApp
                     case "Repeat":
                         int repeats = int.Parse(terms[1]);
                         List<string> commands = new List<string>();
-                        for (int j = i; j < text.Count && text[j].StartsWith("\t"); j++)
-                            commands.Add(text[j].Remove(0, 2));
+                        for (int j = i + 1; j < text.Count && text[j].StartsWith("\t"); j++)
+                        {
+                            commands.Add(text[j].Trim('\t'));
+                            i++;
+                        }
                         Program program = new Program(commands);
                         command = new RepeatCommand(program, repeats);
                         break;
 
                     default:
-                        throw new Exception("Unknown command.");
+                        throw new Exception("Unknown command: " + terms[0] + " " + terms[1]);
                 }
 
                 AddCommand(command);
