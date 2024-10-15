@@ -3,6 +3,7 @@
     public class Program
     {
         List<Command> commands;
+        public List<Command> Commands { get => commands; }
 
         public Program(List<string> text)
         {
