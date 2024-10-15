@@ -42,16 +42,6 @@ namespace ProgrammingLearningApp
         }
     }
 
-    public class Program
-    {
-        List<Command> commands;
-
-        public void AddCommand(Command c)
-        {
-            commands.Add(c);
-        }
-    }
-
     public enum LeftRight {
         Left,
         Right
