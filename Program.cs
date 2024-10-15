@@ -16,6 +16,14 @@
             commands.Add(c);
         }
 
+        public void Execute(Character character)
+        {
+            foreach(Command c in commands)
+            {
+                c.Execute(character);
+            }
+        }
+
         /// <summary>
         /// This method reads all the commands from a textfile and puts them in the program.
         /// </summary>
