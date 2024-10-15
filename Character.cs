@@ -112,5 +112,10 @@ namespace ProgrammingLearningApp
             this.x = y;
             this.y = y;
         }
+
+        public override string ToString()
+        {
+            return "(" + x + ", " + y + ")";
+        }
     }
 }
