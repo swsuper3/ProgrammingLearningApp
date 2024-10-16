@@ -74,8 +74,10 @@ namespace ProgrammingLearningApp
     /// <summary>
     /// These methods contain circular logic, so that turning the character is circular as well.
     /// If there is no next node, it takes the first. If there is no previous node, it takes the last.
+    /// 
+    /// Methods from: https://stackoverflow.com/questions/716256/creating-a-circularly-linked-list-in-c
     /// </summary>
-    static class CircularLinkedList //https://stackoverflow.com/questions/716256/creating-a-circularly-linked-list-in-c
+    static class CircularLinkedList
     {
         public static LinkedListNode<T> NextOrFirst<T>(this LinkedListNode<T> current)
         {
