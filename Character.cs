@@ -10,7 +10,7 @@ namespace ProgrammingLearningApp
     public class Character
     {
         public Direction ViewDirection { get { return viewDirection.Value; } }
-        public Point Position { get; private set; }
+        public Point Position { get { return position; } }
 
         LinkedListNode<Direction> viewDirection;
         Point position;
@@ -32,7 +32,7 @@ namespace ProgrammingLearningApp
         /// <param name="amount"></param>
         public void Move(int amount)
         {
-            switch (viewDirection.Value)
+            switch (ViewDirection)
             {
                 case Direction.North:
                     position.y -= amount;
