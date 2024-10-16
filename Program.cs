@@ -16,6 +16,10 @@
             commands.Add(c);
         }
 
+        /// <summary>
+        /// This method executes all commands in this program.
+        /// </summary>
+        /// <param name="character"></param>
         public void Execute(Character character)
         {
             foreach(Command c in commands)

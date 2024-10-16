@@ -20,6 +20,10 @@ namespace ProgrammingLearningApp
             this.amountToMove = amountToMove;
         }
 
+        /// <summary>
+        /// This method calls the Move method of the character.
+        /// </summary>
+        /// <param name="character"></param>
         public override void Execute(Character character)
         {
             character.Move(amountToMove);
@@ -35,6 +39,10 @@ namespace ProgrammingLearningApp
             this.turnDirection = turnDirection;
         }
 
+        /// <summary>
+        /// This method calls the Turn method of the character.
+        /// </summary>
+        /// <param name="character"></param>
         public override void Execute(Character character)
         {
             character.Turn(turnDirection);
@@ -52,6 +60,10 @@ namespace ProgrammingLearningApp
             amountOfRepeats = repeats;
         }
 
+        /// <summary>
+        /// This method executes the program to repeat the amound of times necessary.
+        /// </summary>
+        /// <param name="character"></param>
         public override void Execute(Character character)
         {
             for (int i = 0; i < amountOfRepeats; i++)
