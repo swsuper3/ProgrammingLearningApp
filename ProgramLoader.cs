@@ -9,13 +9,13 @@ namespace ProgrammingLearningApp
     public class ProgramLoader
     {
         /// <summary>
-        /// This method creates and returns a program from the specified filename.
+        /// This method creates and returns a program from the specified filename. By default it tries to find the file inside of the Programs folder.
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public Program CreateProgram(string filename)
+        public Program CreateProgram(string filename, string path = "../../../Programs/")
         {
-            return new Program(ReadFile(filename));
+            return new Program(ReadFile(path+filename));
         }
 
         /// <summary>
