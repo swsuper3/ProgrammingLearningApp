@@ -18,6 +18,21 @@ namespace TestProject
             Assert.Equal(Direction.West, c.ViewDirection);
         }
 
+        [Fact]
+        public void TurnRight_WestToNorth()
+        {
+            //Arrange
+            Character c = new Character();
+
+            //Act
+            c.Turn(LeftRight.Right);
+            c.Turn(LeftRight.Right);
+            c.Turn(LeftRight.Right);
+
+            //Assert
+            Assert.Equal(Direction.North, c.ViewDirection);
+        }
+
         [Theory]
         [InlineData(3)]
         [InlineData(0)]
