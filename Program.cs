@@ -53,7 +53,7 @@
                         List<string> commands = new List<string>();
                         for (int j = i + 1; j < text.Count && text[j].StartsWith("\t"); j++)
                         {
-                            commands.Add(text[j].Trim('\t'));
+                            commands.Add(text[j].Remove(0, 1));
                             i++;
                         }
                         Program program = new Program(commands);
