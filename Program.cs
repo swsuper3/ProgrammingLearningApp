@@ -17,6 +17,18 @@
         }
 
         /// <summary>
+        /// This method executes all commands in this program.
+        /// </summary>
+        /// <param name="character"></param>
+        public void Execute(Character character)
+        {
+            foreach(Command c in commands)
+            {
+                c.Execute(character);
+            }
+        }
+
+        /// <summary>
         /// This method reads all the commands from a textfile and puts them in the program.
         /// </summary>
         private void ParseCommandList (List<string> text)
@@ -45,7 +57,7 @@
                         List<string> commands = new List<string>();
                         for (int j = i + 1; j < text.Count && text[j].StartsWith("\t"); j++)
                         {
-                            commands.Add(text[j].Trim('\t'));
+                            commands.Add(text[j].Remove(0, 1));
                             i++;
                         }
                         Program program = new Program(commands);

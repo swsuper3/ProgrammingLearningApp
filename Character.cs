@@ -10,7 +10,7 @@ namespace ProgrammingLearningApp
     public class Character
     {
         public Direction ViewDirection { get { return viewDirection.Value; } }
-        public Point Position { get; private set; }
+        public Point Position { get { return position; } }
 
         LinkedListNode<Direction> viewDirection;
         Point position;
@@ -32,7 +32,7 @@ namespace ProgrammingLearningApp
         /// <param name="amount"></param>
         public void Move(int amount)
         {
-            switch (viewDirection.Value)
+            switch (ViewDirection)
             {
                 case Direction.North:
                     position.y -= amount;
@@ -74,8 +74,10 @@ namespace ProgrammingLearningApp
     /// <summary>
     /// These methods contain circular logic, so that turning the character is circular as well.
     /// If there is no next node, it takes the first. If there is no previous node, it takes the last.
+    /// 
+    /// Methods from: https://stackoverflow.com/questions/716256/creating-a-circularly-linked-list-in-c
     /// </summary>
-    static class CircularLinkedList //https://stackoverflow.com/questions/716256/creating-a-circularly-linked-list-in-c
+    static class CircularLinkedList
     {
         public static LinkedListNode<T> NextOrFirst<T>(this LinkedListNode<T> current)
         {
@@ -111,6 +113,11 @@ namespace ProgrammingLearningApp
         {
             this.x = y;
             this.y = y;
+        }
+
+        public override string ToString()
+        {
+            return "(" + x + ", " + y + ")";
         }
     }
 }

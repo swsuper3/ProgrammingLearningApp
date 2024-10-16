@@ -8,6 +8,7 @@ namespace ProgrammingLearningApp
 {
     public abstract class Command
     {
+        public abstract void Execute(Character character);
     }
 
     public class MoveCommand : Command
@@ -18,6 +19,15 @@ namespace ProgrammingLearningApp
         {
             this.amountToMove = amountToMove;
         }
+
+        /// <summary>
+        /// This method calls the Move method of the character.
+        /// </summary>
+        /// <param name="character"></param>
+        public override void Execute(Character character)
+        {
+            character.Move(amountToMove);
+        }
     }
 
     public class TurnCommand : Command
@@ -27,6 +37,15 @@ namespace ProgrammingLearningApp
         public TurnCommand(LeftRight turnDirection)
         {
             this.turnDirection = turnDirection;
+        }
+
+        /// <summary>
+        /// This method calls the Turn method of the character.
+        /// </summary>
+        /// <param name="character"></param>
+        public override void Execute(Character character)
+        {
+            character.Turn(turnDirection);
         }
     }
 
@@ -39,6 +58,18 @@ namespace ProgrammingLearningApp
         {
             programToRepeat = program;
             amountOfRepeats = repeats;
+        }
+
+        /// <summary>
+        /// This method executes the program to repeat the amound of times necessary.
+        /// </summary>
+        /// <param name="character"></param>
+        public override void Execute(Character character)
+        {
+            for (int i = 0; i < amountOfRepeats; i++)
+            {
+                programToRepeat.Execute(character);
+            }
         }
     }
 
