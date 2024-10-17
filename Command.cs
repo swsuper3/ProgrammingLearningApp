@@ -82,6 +82,13 @@ namespace ProgrammingLearningApp
             }
         }
 
+        public ProgramMetrics GetMetrics()
+        {
+            ProgramMetrics innerProgram = programToRepeat.GetMetrics();
+
+            return new ProgramMetrics(innerProgram.noOfCommands, innerProgram.maxNestingLevel + 1, innerProgram.noOfRepeats);
+        }
+
         public override string ToString()
         {
             List<string> programStrings = new List<string>();

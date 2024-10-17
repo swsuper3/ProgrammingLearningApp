@@ -28,6 +28,39 @@
             }
         }
 
+        public ProgramMetrics GetMetrics()
+        {
+            int noOfCommands = commands.Count;
+
+            int noOfRepeats = 0;
+
+            List<int> repeatNestingLevels = new List<int>();
+            foreach(Command command in commands)
+            {
+                if(command is not RepeatCommand)
+                {
+                    continue;
+                }
+
+                RepeatCommand repeat = (RepeatCommand) command;
+                noOfRepeats++;
+
+                ProgramMetrics repeatMetrics = repeat.GetMetrics();
+
+                noOfCommands += repeatMetrics.noOfCommands;
+                noOfRepeats += repeatMetrics.noOfRepeats;
+                repeatNestingLevels.Add(repeatMetrics.maxNestingLevel);
+            }
+
+            int maxNestingLevel = 0;
+
+            if (noOfRepeats != 0) {
+                maxNestingLevel = repeatNestingLevels.Max();
+            }
+
+            return new ProgramMetrics(noOfCommands, maxNestingLevel, noOfRepeats);
+        }
+
         /// <summary>
         /// This method reads all the commands from a textfile and puts them in the program.
         /// </summary>
