@@ -1,0 +1,4 @@
+Move 3
+Repeat 9
+	Turn right
+Move 2
