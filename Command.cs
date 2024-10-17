@@ -84,13 +84,13 @@ namespace ProgrammingLearningApp
 
         public override string ToString()
         {
-            List<string> commandStrings = new List<string>();
-            foreach(Command c in programToRepeat.Commands)
+            List<string> programStrings = new List<string>();
+            for(int i = 0; i < amountOfRepeats; i++)
             {
-                commandStrings.Add(c.ToString());
+                programStrings.Add(programToRepeat.ToString());
             }
 
-            return string.Join(", ", commandStrings);
+            return string.Join(", ", programStrings);
         }
     }
 
