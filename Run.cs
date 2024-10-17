@@ -8,16 +8,17 @@ public class Run
 
         while(true)
         {
-
+            // Get the program
             Console.WriteLine("Select a program: (Type the filename (including extension), or 'random' to get a random program)");
             string file = Console.ReadLine();
 
             if(file == "random")
             {
-                file = getrandomfile2("../../../Programs");
+                file = GetRandomFile("../../../Programs");
             }
 
 
+            // Get whether we should execute the program or show its metrics
             Console.WriteLine("Type the number '1' to execute the program. Type the number '2' to view the program's metrics.");
             string mode = Console.ReadLine();
             int modeInt;
@@ -29,6 +30,8 @@ public class Run
                 continue;
             }
 
+
+            // If the given file is suitable, run the program or show the metrics; otherwise, show the appropriate error.
             try
             {
                 if (modeInt == 1)
@@ -67,7 +70,7 @@ public class Run
     /// </summary>
     /// <param name="path"></param>
     /// <returns></returns>
-    private static string getrandomfile2(string path)
+    private static string GetRandomFile(string path)
     {
         string file = null;
         if (!string.IsNullOrEmpty(path))

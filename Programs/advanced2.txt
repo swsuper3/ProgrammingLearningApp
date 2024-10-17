@@ -1,10 +1,14 @@
-Turn left
-Repeat 6
-	Move 2
-	Repeat 3
-		Turn left
-		Move 4
-		Repeat 2
-			Turn right
+Repeat 2
+	Turn right
+Repeat 4
 	Move 1
-Move 5
+	Turn left
+	Move 5
+	Move 6
+Move 2
+Turn right
+Repeat 3
+	Move 3
+	Turn right
+	Turn right
+	Move 8

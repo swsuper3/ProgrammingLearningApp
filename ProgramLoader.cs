@@ -11,7 +11,7 @@ namespace ProgrammingLearningApp
         /// <summary>
         /// This method creates and returns a program from the specified filename. By default it tries to find the file inside of the Programs folder.
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filename">file name including extension</param>
         /// <returns></returns>
         public Program CreateProgram(string filename, string path = "../../../Programs/")
         {
