@@ -30,6 +30,7 @@
 
         public ProgramMetrics GetMetrics()
         {
+            //The number of commands starts at the amount of commands in the outer program. This number is increased by the commands contained in repeats.
             int noOfCommands = commands.Count;
 
             int noOfRepeats = 0;
@@ -52,6 +53,7 @@
                 repeatNestingLevels.Add(repeatMetrics.maxNestingLevel);
             }
 
+            //The maximum nesting level is 0 if there are no repeats, otherwise it's the biggest nesting level from all repeats at this level.
             int maxNestingLevel = 0;
 
             if (noOfRepeats != 0) {

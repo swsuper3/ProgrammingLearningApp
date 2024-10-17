@@ -82,6 +82,10 @@ namespace ProgrammingLearningApp
             }
         }
 
+        /// <summary>
+        /// This method passes the metrics from the Repeat's inner program. One exception: the maxNestingLevel is incremented to show that the inner program was nested.
+        /// </summary>
+        /// <returns></returns>
         public ProgramMetrics GetMetrics()
         {
             ProgramMetrics innerProgram = programToRepeat.GetMetrics();
