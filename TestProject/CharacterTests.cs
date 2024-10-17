@@ -4,33 +4,23 @@ namespace TestProject
 {
     public class CharacterTests
     {
-        [Fact]
-        public void TurnLeft_NorthToWest()
+        [Theory]
+        [InlineData(LeftRight.Left, 2, Direction.West)]
+        [InlineData(LeftRight.Right, 2, Direction.West)]
+        [InlineData(LeftRight.Left, 1, Direction.North)]
+        [InlineData(LeftRight.Right, 3, Direction.North)]
+        [InlineData(LeftRight.Left, 4, Direction.East)]
+        [InlineData(LeftRight.Right, 4, Direction.East)]
+        public void TurnTesting(LeftRight turnDirection, int amount, Direction expected)
         {
             //Arrange
             Character c = new Character();
 
             //Act
-            c.Turn(LeftRight.Left);
-            c.Turn(LeftRight.Left);
+            c.Turn(turnDirection, amount);
 
             //Assert
-            Assert.Equal(Direction.West, c.ViewDirection);
-        }
-
-        [Fact]
-        public void TurnRight_WestToNorth()
-        {
-            //Arrange
-            Character c = new Character();
-
-            //Act
-            c.Turn(LeftRight.Right);
-            c.Turn(LeftRight.Right);
-            c.Turn(LeftRight.Right);
-
-            //Assert
-            Assert.Equal(Direction.North, c.ViewDirection);
+            Assert.Equal(expected, c.ViewDirection);
         }
 
         [Theory]

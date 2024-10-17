@@ -4,16 +4,8 @@ public class Run
 {
     private static void Main(string[] args)
     {
-        ProgramLoader pl = new ProgramLoader();
-        Program p = pl.CreateProgram("basic1.txt");
+        Application app = new Application();
 
-        Character character = new Character();
-
-        Console.WriteLine(character.Position);
-
-        p.Execute(character);
-
-        Console.WriteLine(character.Position + ": facing "+character.ViewDirection);
-
+        app.ShowMetrics("basic1.txt");
     }
 }

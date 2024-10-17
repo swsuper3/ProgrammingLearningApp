@@ -28,6 +28,11 @@ namespace ProgrammingLearningApp
         {
             character.Move(amountToMove);
         }
+
+        public override string ToString()
+        {
+            return "Move " + amountToMove;
+        }
     }
 
     public class TurnCommand : Command
@@ -46,6 +51,11 @@ namespace ProgrammingLearningApp
         public override void Execute(Character character)
         {
             character.Turn(turnDirection);
+        }
+
+        public override string ToString()
+        {
+            return "Turn " + turnDirection;
         }
     }
 
@@ -70,6 +80,28 @@ namespace ProgrammingLearningApp
             {
                 programToRepeat.Execute(character);
             }
+        }
+
+        /// <summary>
+        /// This method passes the metrics from the Repeat's inner program. One exception: the maxNestingLevel is incremented to show that the inner program was nested.
+        /// </summary>
+        /// <returns></returns>
+        public ProgramMetrics GetMetrics()
+        {
+            ProgramMetrics innerProgram = programToRepeat.GetMetrics();
+
+            return new ProgramMetrics(innerProgram.noOfCommands, innerProgram.maxNestingLevel + 1, innerProgram.noOfRepeats);
+        }
+
+        public override string ToString()
+        {
+            List<string> programStrings = new List<string>();
+            for(int i = 0; i < amountOfRepeats; i++)
+            {
+                programStrings.Add(programToRepeat.ToString());
+            }
+
+            return string.Join(", ", programStrings);
         }
     }
 

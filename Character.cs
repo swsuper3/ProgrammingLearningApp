@@ -69,6 +69,14 @@ namespace ProgrammingLearningApp
                 throw new ArgumentOutOfRangeException("Invalid turnDirection");
             }
         }
+
+        public void Turn(LeftRight turnDirection, int amountOfTurns)
+        {
+            for(int i = 0; i < amountOfTurns; i++)
+            {
+                Turn(turnDirection);
+            }
+        }
     }
 
     /// <summary>
