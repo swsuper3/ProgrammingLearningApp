@@ -26,5 +26,12 @@ namespace ProgrammingLearningApp
             Console.WriteLine(program);
             Console.WriteLine("End state "+character.Position+" facing "+character.ViewDirection);
         }
+
+        public void ShowMetrics(string filename)
+        {
+            Program program = programLoader.CreateProgram(filename);
+
+            Console.WriteLine(program.GetMetrics());
+        }
     }
 }

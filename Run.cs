@@ -6,6 +6,6 @@ public class Run
     {
         Application app = new Application();
 
-        app.RunProgram("basic1.txt");
+        app.ShowMetrics("basic1.txt");
     }
 }
