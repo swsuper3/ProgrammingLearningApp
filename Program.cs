@@ -71,5 +71,16 @@
                 AddCommand(command);
             }
         }
+
+        public override string ToString()
+        {
+            List<string> commandStrings = new List<string>();
+            foreach (Command c in commands)
+            {
+                commandStrings.Add(c.ToString());
+            }
+
+            return string.Join(", ", commandStrings);
+        }
     }
 }

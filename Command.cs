@@ -28,6 +28,11 @@ namespace ProgrammingLearningApp
         {
             character.Move(amountToMove);
         }
+
+        public override string ToString()
+        {
+            return "Move " + amountToMove;
+        }
     }
 
     public class TurnCommand : Command
@@ -46,6 +51,11 @@ namespace ProgrammingLearningApp
         public override void Execute(Character character)
         {
             character.Turn(turnDirection);
+        }
+
+        public override string ToString()
+        {
+            return "Turn " + turnDirection;
         }
     }
 
@@ -70,6 +80,17 @@ namespace ProgrammingLearningApp
             {
                 programToRepeat.Execute(character);
             }
+        }
+
+        public override string ToString()
+        {
+            List<string> commandStrings = new List<string>();
+            foreach(Command c in programToRepeat.Commands)
+            {
+                commandStrings.Add(c.ToString());
+            }
+
+            return string.Join(", ", commandStrings);
         }
     }
 

@@ -23,6 +23,7 @@ namespace ProgrammingLearningApp
 
             program.Execute(character);
 
+            Console.WriteLine(program);
             Console.WriteLine("End state "+character.Position+" facing "+character.ViewDirection);
         }
     }
