@@ -31,16 +31,24 @@ public class Run
             }
 
 
-            // If the given file is suitable, run the program or show the metrics; otherwise, show the appropriate error.
+            // If the given file/program is suitable, run the program or show the metrics; otherwise, show the appropriate error.
+            int hardcodedNr;
+            bool hardcodedProgram = int.TryParse(file, out hardcodedNr);
             try
             {
                 if (modeInt == 1)
                 {
-                    app.RunProgram(file);
+                    if (hardcodedProgram)
+                        app.RunProgram(hardcodedNr);
+                    else
+                        app.RunProgram(file);
                 }
                 else if (modeInt == 2)
                 {
-                    app.ShowMetrics(file);
+                    if (hardcodedProgram)
+                        app.ShowMetrics(hardcodedNr);
+                    else
+                        app.ShowMetrics(file);
                 }
             }
             catch (FileNotFoundException)

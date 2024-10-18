@@ -23,9 +23,7 @@
         public void Execute(Character character)
         {
             foreach(Command c in commands)
-            {
                 c.Execute(character);
-            }
         }
 
         public ProgramMetrics GetMetrics()
@@ -39,9 +37,7 @@
             foreach(Command command in commands)
             {
                 if(command is not RepeatCommand)
-                {
                     continue;
-                }
 
                 RepeatCommand repeat = (RepeatCommand) command;
                 noOfRepeats++;
@@ -56,9 +52,8 @@
             //The maximum nesting level is 0 if there are no repeats, otherwise it's the biggest nesting level from all repeats at this level.
             int maxNestingLevel = 0;
 
-            if (noOfRepeats != 0) {
+            if (noOfRepeats != 0)
                 maxNestingLevel = repeatNestingLevels.Max();
-            }
 
             return new ProgramMetrics(noOfCommands, maxNestingLevel, noOfRepeats);
         }
