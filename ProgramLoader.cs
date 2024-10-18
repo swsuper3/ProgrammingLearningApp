@@ -53,6 +53,8 @@ namespace ProgrammingLearningApp
                 line = sr.ReadLine();
             }
 
+            sr.Close();
+
             return lines;
         }
     }
