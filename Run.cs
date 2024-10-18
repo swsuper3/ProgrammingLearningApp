@@ -9,7 +9,7 @@ public class Run
         while(true)
         {
             // Get the program
-            Console.WriteLine("Select a program: (Type the filename (including extension), or 'random' to get a random program)");
+            Console.WriteLine("Select a program: Type the filename (including extension), 'random' to get a random program, or a number (0-5) for a hard-coded program");
             string file = Console.ReadLine();
 
             if(file == "random")

@@ -32,6 +32,21 @@ namespace ProgrammingLearningApp
         }
 
         /// <summary>
+        /// This method creates a program from the file, runs it and prints its effects to the console.
+        /// </summary>
+        /// <param name="filename"></param>
+        public void RunProgram(int hardcodedNr)
+        {
+            Character character = new Character();
+            Program program = programLoader.CreateProgram(hardcodedNr);
+
+            program.Execute(character);
+
+            Console.WriteLine(program);
+            Console.WriteLine("End state " + character.Position + " facing " + character.ViewDirection);
+        }
+
+        /// <summary>
         /// This method creates a program from the file and prints its metrics to the console.
         /// </summary>
         /// <param name="filename"></param>
