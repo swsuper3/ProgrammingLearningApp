@@ -11,11 +11,6 @@
             ParseCommandList(text);
         }
 
-        private void AddCommand(Command c)
-        {
-            commands.Add(c);
-        }
-
         /// <summary>
         /// This method executes all commands in this program.
         /// </summary>
@@ -98,7 +93,7 @@
                         throw new Exception("Unknown command: " + terms[0] + " " + terms[1]);
                 }
 
-                AddCommand(command);
+                commands.Add(command);
             }
         }
 
