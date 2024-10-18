@@ -9,8 +9,8 @@ namespace ProgrammingLearningApp
 {
     public class Character
     {
-        public Direction ViewDirection { get { return viewDirection.Value; } }
-        public Point Position { get { return position; } }
+        public Direction ViewDirection { get => viewDirection.Value; }
+        public Point Position { get => position; }
 
         LinkedListNode<Direction> viewDirection;
         Point position;
@@ -87,11 +87,17 @@ namespace ProgrammingLearningApp
     /// </summary>
     static class CircularLinkedList
     {
+        /// <summary>
+        /// If there is no next node, it takes the first.
+        /// </summary>
         public static LinkedListNode<T> NextOrFirst<T>(this LinkedListNode<T> current)
         {
             return current.Next ?? current.List.First;
         }
 
+        /// <summary>
+        /// If there is no previous node, it takes the last.
+        /// </summary>
         public static LinkedListNode<T> PreviousOrLast<T>(this LinkedListNode<T> current)
         {
             return current.Previous ?? current.List.Last;

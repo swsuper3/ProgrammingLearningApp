@@ -1,0 +1,14 @@
+Repeat 2
+	Turn right
+Repeat 4
+	Move 1
+	Turn left
+	Move 5
+	Move 6
+Move 2
+Turn right
+Repeat 3
+	Move 3
+	Turn right
+	Turn right
+	Move 8

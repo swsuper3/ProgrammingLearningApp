@@ -8,16 +8,17 @@ public class Run
 
         while(true)
         {
-
-            Console.WriteLine("Select a program: (Type the filename (including extension), or 'random' to get a random program)");
+            // Get the program
+            Console.WriteLine("Select a program: Type the filename (including extension), 'random' to get a random program, or a number (0-5) for a hard-coded program");
             string file = Console.ReadLine();
 
             if(file == "random")
             {
-                file = getrandomfile2("../../../Programs");
+                file = GetRandomFile("../../../Programs");
             }
 
 
+            // Get whether we should execute the program or show its metrics
             Console.WriteLine("Type the number '1' to execute the program. Type the number '2' to view the program's metrics.");
             string mode = Console.ReadLine();
             int modeInt;
@@ -29,15 +30,25 @@ public class Run
                 continue;
             }
 
+
+            // If the given file/program is suitable, run the program or show the metrics; otherwise, show the appropriate error.
+            int hardcodedNr;
+            bool hardcodedProgram = int.TryParse(file, out hardcodedNr);
             try
             {
                 if (modeInt == 1)
                 {
-                    app.RunProgram(file);
+                    if (hardcodedProgram)
+                        app.RunProgram(hardcodedNr);
+                    else
+                        app.RunProgram(file);
                 }
                 else if (modeInt == 2)
                 {
-                    app.ShowMetrics(file);
+                    if (hardcodedProgram)
+                        app.ShowMetrics(hardcodedNr);
+                    else
+                        app.ShowMetrics(file);
                 }
             }
             catch (FileNotFoundException)
@@ -67,7 +78,7 @@ public class Run
     /// </summary>
     /// <param name="path"></param>
     /// <returns></returns>
-    private static string getrandomfile2(string path)
+    private static string GetRandomFile(string path)
     {
         string file = null;
         if (!string.IsNullOrEmpty(path))
