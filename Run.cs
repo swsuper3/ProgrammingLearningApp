@@ -1,10 +1,11 @@
 ﻿using ProgrammingLearningApp;
+using System.IO;
 
 public class Run
 {
     private static void Main(string[] args)
     {
-        Application app = new Application();
+        MyApplication app = new MyApplication();
 
         while(true)
         {
