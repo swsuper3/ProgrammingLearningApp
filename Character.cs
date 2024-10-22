@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace ProgrammingLearningApp
 {
-    public class Character
+    public class Character : ISubject<Character>
     {
         public Direction ViewDirection { get => viewDirection.Value; }
         public Point Position { get => position; }
 
         LinkedListNode<Direction> viewDirection;
         Point position;
+
+        private List<IMyObserver<Character>> observers = new List<IMyObserver<Character>>();
 
         public Character()
         {
@@ -75,6 +77,30 @@ namespace ProgrammingLearningApp
             for(int i = 0; i < amountOfTurns; i++)
             {
                 Turn(turnDirection);
+            }
+        }
+
+        public void Attach(IMyObserver<Character> observer)
+        {
+            if (!observers.Contains(observer))
+            {
+                observers.Add(observer);
+            }
+        }
+
+        public void Detach(IMyObserver<Character> observer)
+        {
+            if(observers.Contains(observer))
+            {
+                observers.Remove(observer);
+            }
+        }
+
+        public void Notify()
+        {
+            foreach(IMyObserver<Character> observer in observers)
+            {
+                observer.Update(this);
             }
         }
     }
