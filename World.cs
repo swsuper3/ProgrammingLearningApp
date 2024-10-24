@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace ProgrammingLearningApp
 {
+    /// <summary>
+    /// World is class that handles the obstacle-player interaction.
+    /// It is responsible for moving the player since it knows where and how the player can move.
+    /// </summary>
     public class World : ISubject<Character>
     {
         Character character;
