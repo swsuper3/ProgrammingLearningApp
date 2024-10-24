@@ -17,6 +17,8 @@ namespace ProgrammingLearningApp
 
         private List<IMyObserver<Character>> observers = new List<IMyObserver<Character>>();
 
+        HashSet<Point> obstacles;
+
         public Character()
         {
             Direction[] directions = (Direction[]) Enum.GetValues(typeof(Direction));
@@ -26,6 +28,13 @@ namespace ProgrammingLearningApp
             viewDirection = ll.First.NextOrFirst();
 
             this.position = new Point();
+
+            obstacles = new HashSet<Point>();
+        }
+
+        public Character(HashSet<Point> obstacles) : this()
+        {
+            this.obstacles = obstacles;
         }
 
         /// <summary>
@@ -34,20 +43,28 @@ namespace ProgrammingLearningApp
         /// <param name="amount"></param>
         public void Move(int amount)
         {
-            switch (ViewDirection)
-            {
-                case Direction.North:
-                    position.y -= amount;
-                    break;
-                case Direction.East:
-                    position.x += amount;
-                    break;
-                case Direction.South:
-                    position.y += amount;
-                    break;
-                case Direction.West:
-                    position.x -= amount;
-                    break;
+            for (int i = 0; i < amount; i++) {
+                Point oldPosition = new Point(position.x, position.y);
+                switch (ViewDirection)
+                {
+                    case Direction.North:
+                        position.y--;
+                        break;
+                    case Direction.East:
+                        position.x++;
+                        break;
+                    case Direction.South:
+                        position.y++;
+                        break;
+                    case Direction.West:
+                        position.x--;
+                        break;
+                }
+
+                if(obstacles.Contains(position))
+                {
+                    position = oldPosition;
+                }
             }
 
             Notify();
