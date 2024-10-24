@@ -49,6 +49,8 @@ namespace ProgrammingLearningApp
                     position.x -= amount;
                     break;
             }
+
+            Notify();
         }
 
         /// <summary>

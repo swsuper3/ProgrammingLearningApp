@@ -9,10 +9,12 @@ namespace ProgrammingLearningApp
     public class Path : IMyObserver<Character>
     {
         List<Point> cellsAlongPath;
+        public List<Point> CellsAlongPath { get { return cellsAlongPath; } }
 
-        public Path()
+        public Path(Character c)
         {
             cellsAlongPath = new List<Point>();
+            cellsAlongPath.Add(c.Position);
         }
 
         public void Update(Character character)
