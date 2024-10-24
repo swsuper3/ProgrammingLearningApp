@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO.Enumeration;
 using System.Linq;
 using System.Text;
@@ -24,11 +25,18 @@ namespace ProgrammingLearningApp
         {
             Character character = new Character();
             Program program = programLoader.CreateProgram(filename);
+            Path path = new Path(character);
+            character.Attach(path);
 
             program.Execute(character);
 
             Console.WriteLine(program);
             Console.WriteLine("End state "+character.Position+" facing "+character.ViewDirection);
+
+            foreach(Point p in path.CellsAlongPath)
+            {
+                Debug.WriteLine(p.ToString());
+            }
         }
 
         /// <summary>
