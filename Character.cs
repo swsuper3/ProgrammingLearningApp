@@ -43,27 +43,27 @@ namespace ProgrammingLearningApp
         /// <param name="amount"></param>
         public void Move(int amount)
         {
+            Point destination = new Point();
             for (int i = 0; i < amount; i++) {
-                Point oldPosition = new Point(position.x, position.y);
                 switch (ViewDirection)
                 {
                     case Direction.North:
-                        position.y--;
+                        destination = new Point(position.x, position.y-1);
                         break;
                     case Direction.East:
-                        position.x++;
+                        destination = new Point(position.x+1, position.y);
                         break;
                     case Direction.South:
-                        position.y++;
+                        destination = new Point(position.x, position.y+1);
                         break;
                     case Direction.West:
-                        position.x--;
+                        destination = new Point(position.x-1, position.y);
                         break;
                 }
 
-                if(obstacles.Contains(position))
+                if(!obstacles.Contains(destination))
                 {
-                    position = oldPosition;
+                    position = new Point(destination.x, destination.y);
                 }
             }
 
@@ -170,7 +170,7 @@ namespace ProgrammingLearningApp
 
         public Point(int x, int y)
         {
-            this.x = y;
+            this.x = x;
             this.y = y;
         }
 

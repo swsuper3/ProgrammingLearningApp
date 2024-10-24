@@ -23,7 +23,10 @@ namespace ProgrammingLearningApp
         /// <param name="filename"></param>
         public void RunProgram(string filename)
         {
-            Character character = new Character();
+            HashSet<Point> obstacles = new HashSet<Point>();
+            obstacles.Add(new Point(1, 0));
+
+            Character character = new Character(obstacles);
             Program program = programLoader.CreateProgram(filename);
             Path path = new Path(character);
             character.Attach(path);
