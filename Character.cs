@@ -37,37 +37,9 @@ namespace ProgrammingLearningApp
             this.obstacles = obstacles;
         }
 
-        /// <summary>
-        /// This method moves the character a specific amount in the direction the character is currently facing.
-        /// </summary>
-        /// <param name="amount"></param>
-        public void Move(int amount)
+        public void SetPosition(Point newPosition)
         {
-            Point destination = new Point();
-            for (int i = 0; i < amount; i++) {
-                switch (ViewDirection)
-                {
-                    case Direction.North:
-                        destination = new Point(position.x, position.y-1);
-                        break;
-                    case Direction.East:
-                        destination = new Point(position.x+1, position.y);
-                        break;
-                    case Direction.South:
-                        destination = new Point(position.x, position.y+1);
-                        break;
-                    case Direction.West:
-                        destination = new Point(position.x-1, position.y);
-                        break;
-                }
-
-                if(!obstacles.Contains(destination))
-                {
-                    position = new Point(destination.x, destination.y);
-                }
-            }
-
-            Notify();
+            this.position = newPosition;
         }
 
         /// <summary>

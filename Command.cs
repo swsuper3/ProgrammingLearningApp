@@ -8,7 +8,7 @@ namespace ProgrammingLearningApp
 {
     public abstract class Command
     {
-        public abstract void Execute(Character character);
+        public abstract void Execute(World world);
     }
 
     public class MoveCommand : Command
@@ -24,9 +24,9 @@ namespace ProgrammingLearningApp
         /// This method calls the Move method of the character.
         /// </summary>
         /// <param name="character"></param>
-        public override void Execute(Character character)
+        public override void Execute(World world)
         {
-            character.Move(amountToMove);
+            world.MovePlayer(amountToMove);
         }
 
         public override string ToString()
@@ -48,9 +48,9 @@ namespace ProgrammingLearningApp
         /// This method calls the Turn method of the character.
         /// </summary>
         /// <param name="character"></param>
-        public override void Execute(Character character)
+        public override void Execute(World world)
         {
-            character.Turn(turnDirection);
+            world.TurnPlayer(turnDirection);
         }
 
         public override string ToString()
@@ -74,11 +74,11 @@ namespace ProgrammingLearningApp
         /// This method executes the program to repeat the amound of times necessary.
         /// </summary>
         /// <param name="character"></param>
-        public override void Execute(Character character)
+        public override void Execute(World world)
         {
             for (int i = 0; i < amountOfRepeats; i++)
             {
-                programToRepeat.Execute(character);
+                programToRepeat.Execute(world);
             }
         }
 

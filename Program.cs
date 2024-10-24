@@ -15,10 +15,10 @@
         /// This method executes all commands in this program.
         /// </summary>
         /// <param name="character"></param>
-        public void Execute(Character character)
+        public void Execute(World world)
         {
             foreach(Command c in commands)
-                c.Execute(character);
+                c.Execute(world);
         }
 
         public ProgramMetrics GetMetrics()
