@@ -19,13 +19,14 @@ namespace ProgrammingLearningApp
 
         public WindowsForm()
         {
+            InitializeComponent();
         }
 
         [STAThread]         // This specifies that our app is a single-threaded apartment
         public static void Main()
         {
             Initialize();
-            System.Windows.Forms.Application.Run();
+            System.Windows.Forms.Application.Run(new WindowsForm());
         }
 
         private void InitializeComponent()
