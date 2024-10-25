@@ -72,6 +72,17 @@ namespace ProgrammingLearningApp
             obstacles.Add(p);
         }
 
+        public void SetBounds(int gridWidth, int gridHeight)
+        {
+            for(int i = 0; i < gridWidth; i++)
+            {
+                obstacles.Add(new Point(i, -1));
+                obstacles.Add(new Point(-1, i));
+                obstacles.Add(new Point(i, gridHeight));
+                obstacles.Add(new Point(gridWidth, i));
+            }
+        }
+
 
 
         public void Attach(IMyObserver<Character> observer)

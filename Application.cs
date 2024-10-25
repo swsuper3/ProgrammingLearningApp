@@ -25,7 +25,7 @@ namespace ProgrammingLearningApp
         {
             World world = new World();
 
-            world.AddObstacle(new Point(1, 0));
+            world.SetBounds(3, 3);
 
             Program program = programLoader.CreateProgram(filename);
             Path path = new Path(world.Character);
