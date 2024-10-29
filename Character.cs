@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProgrammingLearningApp
 {
-    public class Character : ISubject<Character>
+    public class Character
     {
         public Direction ViewDirection { get => viewDirection.Value; }
         public Point Position { get => position; }
@@ -16,6 +16,8 @@ namespace ProgrammingLearningApp
         Point position;
 
         private List<IMyObserver<Character>> observers = new List<IMyObserver<Character>>();
+
+        HashSet<Point> obstacles;
 
         public Character()
         {
@@ -26,31 +28,18 @@ namespace ProgrammingLearningApp
             viewDirection = ll.First.NextOrFirst();
 
             this.position = new Point();
+
+            obstacles = new HashSet<Point>();
         }
 
-        /// <summary>
-        /// This method moves the character a specific amount in the direction the character is currently facing.
-        /// </summary>
-        /// <param name="amount"></param>
-        public void Move(int amount)
+        public Character(HashSet<Point> obstacles) : this()
         {
-            switch (ViewDirection)
-            {
-                case Direction.North:
-                    position.y -= amount;
-                    break;
-                case Direction.East:
-                    position.x += amount;
-                    break;
-                case Direction.South:
-                    position.y += amount;
-                    break;
-                case Direction.West:
-                    position.x -= amount;
-                    break;
-            }
+            this.obstacles = obstacles;
+        }
 
-            Notify();
+        public void SetPosition(Point newPosition)
+        {
+            this.position = newPosition;
         }
 
         /// <summary>
@@ -79,30 +68,6 @@ namespace ProgrammingLearningApp
             for(int i = 0; i < amountOfTurns; i++)
             {
                 Turn(turnDirection);
-            }
-        }
-
-        public void Attach(IMyObserver<Character> observer)
-        {
-            if (!observers.Contains(observer))
-            {
-                observers.Add(observer);
-            }
-        }
-
-        public void Detach(IMyObserver<Character> observer)
-        {
-            if(observers.Contains(observer))
-            {
-                observers.Remove(observer);
-            }
-        }
-
-        public void Notify()
-        {
-            foreach(IMyObserver<Character> observer in observers)
-            {
-                observer.Update(this);
             }
         }
     }
@@ -153,7 +118,7 @@ namespace ProgrammingLearningApp
 
         public Point(int x, int y)
         {
-            this.x = y;
+            this.x = x;
             this.y = y;
         }
 

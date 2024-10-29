@@ -23,15 +23,16 @@ namespace ProgrammingLearningApp
         /// <param name="filename"></param>
         public void RunProgram(string filename)
         {
-            Character character = new Character();
-            Program program = programLoader.CreateProgram(filename);
-            Path path = new Path(character);
-            character.Attach(path);
+            World world = new World();
 
-            program.Execute(character);
+            Program program = programLoader.CreateProgram(filename);
+            Path path = new Path(world.Character);
+            world.Attach(path);
+
+            program.Execute(world);
 
             Console.WriteLine(program);
-            Console.WriteLine("End state "+character.Position+" facing "+character.ViewDirection);
+            Console.WriteLine("End state "+world.Character.Position+" facing "+world.Character.ViewDirection);
 
             foreach(Point p in path.CellsAlongPath)
             {
@@ -45,13 +46,21 @@ namespace ProgrammingLearningApp
         /// <param name="filename"></param>
         public void RunProgram(int hardcodedNr)
         {
-            Character character = new Character();
-            Program program = programLoader.CreateProgram(hardcodedNr);
+            World world = new World();
 
-            program.Execute(character);
+            Program program = programLoader.CreateProgram(hardcodedNr);
+            Path path = new Path(world.Character);
+            world.Attach(path);
+
+            program.Execute(world);
 
             Console.WriteLine(program);
-            Console.WriteLine("End state " + character.Position + " facing " + character.ViewDirection);
+            Console.WriteLine("End state " + world.Character.Position + " facing " + world.Character.ViewDirection);
+
+            foreach (Point p in path.CellsAlongPath)
+            {
+                Debug.WriteLine(p.ToString());
+            }
         }
 
         /// <summary>
