@@ -25,8 +25,6 @@ namespace ProgrammingLearningApp
         {
             World world = new World();
 
-            world.SetBounds(3, 3);
-
             Program program = programLoader.CreateProgram(filename);
             Path path = new Path(world.Character);
             world.Attach(path);
@@ -49,8 +47,6 @@ namespace ProgrammingLearningApp
         public void RunProgram(int hardcodedNr)
         {
             World world = new World();
-
-            world.AddObstacle(new Point(1, 0));
 
             Program program = programLoader.CreateProgram(hardcodedNr);
             Path path = new Path(world.Character);
