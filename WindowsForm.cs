@@ -7,6 +7,7 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Windows;
+using System.Diagnostics;
 
 namespace ProgrammingLearningApp
 {
@@ -45,6 +46,7 @@ namespace ProgrammingLearningApp
         private Button moveCommand;
         private Button repeatCommand;
         private ListBox Program;
+        private TreeView treeView1;
         private Button runButton;
 
 
@@ -60,6 +62,7 @@ namespace ProgrammingLearningApp
             moveCommand = new Button();
             repeatCommand = new Button();
             Program = new ListBox();
+            treeView1 = new TreeView();
             gridDisplay.SuspendLayout();
             SuspendLayout();
             // 
@@ -79,7 +82,7 @@ namespace ProgrammingLearningApp
             // 
             metricsButton.BackColor = Color.DodgerBlue;
             metricsButton.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            metricsButton.Location = new System.Drawing.Point(347, 508);
+            metricsButton.Location = new System.Drawing.Point(348, 508);
             metricsButton.Name = "metricsButton";
             metricsButton.Size = new System.Drawing.Size(122, 52);
             metricsButton.TabIndex = 0;
@@ -145,7 +148,7 @@ namespace ProgrammingLearningApp
             turnCommand.TabIndex = 5;
             turnCommand.Text = "Turn";
             turnCommand.UseVisualStyleBackColor = false;
-            turnCommand.Click += repeatCommand_Click;
+            turnCommand.Click += turnCommand_Click;
             // 
             // moveCommand
             // 
@@ -157,6 +160,7 @@ namespace ProgrammingLearningApp
             moveCommand.TabIndex = 6;
             moveCommand.Text = "Move";
             moveCommand.UseVisualStyleBackColor = false;
+            moveCommand.Click += moveCommand_Click;
             // 
             // repeatCommand
             // 
@@ -168,6 +172,7 @@ namespace ProgrammingLearningApp
             repeatCommand.TabIndex = 7;
             repeatCommand.Text = "Repeat";
             repeatCommand.UseVisualStyleBackColor = false;
+            repeatCommand.Click += repeatCommand_Click;
             // 
             // Program
             // 
@@ -180,9 +185,17 @@ namespace ProgrammingLearningApp
             Program.TabIndex = 8;
             Program.SelectedIndexChanged += program_SelectedIndexChanged;
             // 
+            // treeView1
+            // 
+            treeView1.Location = new System.Drawing.Point(243, 128);
+            treeView1.Name = "treeView1";
+            treeView1.Size = new System.Drawing.Size(242, 194);
+            treeView1.TabIndex = 9;
+            // 
             // WindowsForm
             // 
             ClientSize = new System.Drawing.Size(1115, 770);
+            Controls.Add(treeView1);
             Controls.Add(Program);
             Controls.Add(repeatCommand);
             Controls.Add(moveCommand);
@@ -200,20 +213,24 @@ namespace ProgrammingLearningApp
             PerformLayout();
         }
 
-        private void AddTurnCommand()
+        private void AddTurnCommand(LeftRight leftRightDirection)
         {
-            TurnCommandBlock turnCommandBlock = new TurnCommandBlock();
+            TurnCommandBlock turnCommandBlock = new TurnCommandBlock(leftRightDirection);
             commandBlocks.Add(turnCommandBlock);
+            this.Controls.Add(turnCommandBlock);
+            this.turnCommandBlock.Click += new System.EventHandler(th)
         }
 
-        private void AddMoveCommand()
+        private void AddMoveCommand(int moveAmount)
         {
-
+            MoveCommandBlock moveCommandBlock = new MoveCommandBlock(moveAmount);
+            commandBlocks.Add(moveCommandBlock);
         }
 
-        private void AddRepeatCommand()
+        private void AddRepeatCommand(int repeatAmount)
         {
-
+            RepeatCommandBlock repeatCommandBlock = new RepeatCommandBlock(repeatAmount);
+            commandBlocks.Add(repeatCommandBlock);
         }
 
         private void metricsButton_Click(object sender, EventArgs e)
@@ -223,7 +240,7 @@ namespace ProgrammingLearningApp
 
         private void runButton_Click(object sender, EventArgs e)
         {
-
+            InitializeComponent();
         }
 
         private void programSelecter_SelectedIndexChanged(object sender, EventArgs e)
@@ -248,20 +265,30 @@ namespace ProgrammingLearningApp
 
         private void turnCommand_Click(object sender, EventArgs e)
         {
-            AddTurnCommand();
+            AddTurnCommand(LeftRight.Left);
         }
 
         private void moveCommand_Click(object sender, EventArgs e)
         {
-            AddMoveCommand();
+            AddMoveCommand(4);
         }
 
         private void repeatCommand_Click(object sender, EventArgs e)
         {
-            AddRepeatCommand();
+            AddRepeatCommand(3);
+        }
+
+        private void command_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void program_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
 
         }
