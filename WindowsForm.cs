@@ -25,7 +25,8 @@ namespace ProgrammingLearningApp
         {
             InitializeComponent();
             programLoader = new ProgramLoader();
-            world = new World(); 
+            world = new World();
+            random = new Random();
         }
 
         [STAThread]         // This specifies that our app is a single-threaded apartment
@@ -246,7 +247,11 @@ namespace ProgrammingLearningApp
             // Attempt to get the metrics from the program
             try
             {
-                Program program = new Program(programList);
+                string[] textBoxText = textBox1.Text.Split(' ');
+                Program program = textBoxText[0] != "Program"
+                    ? new Program(programList)
+                    : programLoader.CreateProgram(textBoxText[1]);
+                
                 output.Text = program.GetMetrics().ToString();
             }
             catch
@@ -270,9 +275,13 @@ namespace ProgrammingLearningApp
 
             try
             {
-                Program program = new Program(programList);
+                string[] textBoxText = textBox1.Text.Split(' ');
+                Program program = textBoxText[0] != "Program"
+                    ? new Program(programList)
+                    : programLoader.CreateProgram(textBoxText[1]);
+
                 program.Execute(world);
-                output.Text = program + ". End state: "  + world.Character.Position + " facing " + world.Character.ViewDirection;
+                output.Text = program + ". End state: " + world.Character.Position + " facing " + world.Character.ViewDirection;
             }
             catch
             {
@@ -283,7 +292,22 @@ namespace ProgrammingLearningApp
 
         private void programSelecter_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (programSelecter.SelectedIndex == 0)      // Basic
+            {
+                textBox1.Text = "Program basic" + random.Next(1, 3) + ".txt has been loaded.";
+            }
+            else if (programSelecter.SelectedIndex == 1) // Advanced
+            {
+                textBox1.Text = "Program advanced" + random.Next(1, 3) + ".txt has been loaded.";
+            }
+            else if (programSelecter.SelectedIndex == 2) // Expert
+            {
+                textBox1.Text = "Program expert" + random.Next(1, 3) + ".txt has been loaded.";
+            }
+            else if (programSelecter.SelectedIndex == 3) // Load FromFile
+            {
 
+            }
         }
 
         private void WindowsForm_Load(object sender, EventArgs e)
