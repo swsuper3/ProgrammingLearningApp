@@ -1,0 +1,300 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Drawing;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Windows;
+using System.Diagnostics;
+
+namespace ProgrammingLearningApp
+{
+    // For creating the Form, we used the following guides:
+    // https://learn.microsoft.com/en-us/dotnet/desktop/winforms/how-to-create-a-windows-forms-application-from-the-command-line?view=netframeworkdesktop-4.8
+    // https://learn.microsoft.com/en-us/visualstudio/ide/create-csharp-winform-visual-studio?view=vs-2022
+
+    public class WindowsForm : Form
+    {
+        public WindowsForm()
+        {
+            InitializeComponent();
+            this.KeyPreview = true;
+        }
+
+        [STAThread]         // This specifies that our app is a single-threaded apartment
+        public static void Main()
+        {
+            Initialize();
+            System.Windows.Forms.Application.Run(new WindowsForm());
+        }
+
+        public static void Initialize()
+        {
+            System.Windows.Forms.Application.EnableVisualStyles();
+            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+            System.Windows.Forms.Application.SetHighDpiMode(HighDpiMode.SystemAware);
+        }
+
+        private List<CommandBlock> commandBlocks = new List<CommandBlock>();
+        private ComboBox programSelecter;
+        private Button metricsButton;
+        private TextBox output;
+        private Button turnCommand;
+        private Button moveCommand;
+        private Button repeatCommand;
+        private Button runButton;
+        private Panel gridPanel;
+        private Label title;
+        private TextBox textBox1;
+
+
+        private void InitializeComponent()
+        {
+            runButton = new Button();
+            metricsButton = new Button();
+            programSelecter = new ComboBox();
+            output = new TextBox();
+            turnCommand = new Button();
+            moveCommand = new Button();
+            repeatCommand = new Button();
+            textBox1 = new TextBox();
+            gridPanel = new Panel();
+            title = new Label();
+            SuspendLayout();
+            // 
+            // runButton
+            // 
+            runButton.BackColor = Color.ForestGreen;
+            runButton.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            runButton.Location = new System.Drawing.Point(219, 508);
+            runButton.Name = "runButton";
+            runButton.Size = new System.Drawing.Size(122, 52);
+            runButton.TabIndex = 1;
+            runButton.Text = "Run";
+            runButton.UseVisualStyleBackColor = false;
+            runButton.Click += runButton_Click;
+            // 
+            // metricsButton
+            // 
+            metricsButton.BackColor = Color.DodgerBlue;
+            metricsButton.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            metricsButton.Location = new System.Drawing.Point(348, 508);
+            metricsButton.Name = "metricsButton";
+            metricsButton.Size = new System.Drawing.Size(122, 52);
+            metricsButton.TabIndex = 0;
+            metricsButton.Text = "Metrics";
+            metricsButton.UseVisualStyleBackColor = false;
+            metricsButton.Click += metricsButton_Click;
+            // 
+            // programSelecter
+            // 
+            programSelecter.Items.AddRange(new object[] { "Basic", "Advanced", "Expert", "From file..." });
+            programSelecter.Location = new System.Drawing.Point(12, 27);
+            programSelecter.Name = "programSelecter";
+            programSelecter.Size = new System.Drawing.Size(200, 40);
+            programSelecter.TabIndex = 2;
+            programSelecter.Text = "Load program";
+            programSelecter.SelectedIndexChanged += programSelecter_SelectedIndexChanged;
+            // 
+            // output
+            // 
+            output.ForeColor = Color.Gainsboro;
+            output.Location = new System.Drawing.Point(219, 566);
+            output.Name = "output";
+            output.PlaceholderText = "<output>";
+            output.ReadOnly = true;
+            output.Size = new System.Drawing.Size(400, 39);
+            output.TabIndex = 4;
+            output.TextChanged += textBox1_TextChanged;
+            // 
+            // turnCommand
+            // 
+            turnCommand.BackColor = Color.Goldenrod;
+            turnCommand.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            turnCommand.Location = new System.Drawing.Point(220, 20);
+            turnCommand.Name = "turnCommand";
+            turnCommand.Size = new System.Drawing.Size(122, 52);
+            turnCommand.TabIndex = 5;
+            turnCommand.Text = "Turn";
+            turnCommand.UseVisualStyleBackColor = false;
+            turnCommand.Click += turnCommand_Click;
+            // 
+            // moveCommand
+            // 
+            moveCommand.BackColor = Color.Goldenrod;
+            moveCommand.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            moveCommand.Location = new System.Drawing.Point(348, 20);
+            moveCommand.Name = "moveCommand";
+            moveCommand.Size = new System.Drawing.Size(122, 52);
+            moveCommand.TabIndex = 6;
+            moveCommand.Text = "Move";
+            moveCommand.UseVisualStyleBackColor = false;
+            moveCommand.Click += moveCommand_Click;
+            // 
+            // repeatCommand
+            // 
+            repeatCommand.BackColor = Color.Goldenrod;
+            repeatCommand.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            repeatCommand.Location = new System.Drawing.Point(476, 20);
+            repeatCommand.Name = "repeatCommand";
+            repeatCommand.Size = new System.Drawing.Size(122, 52);
+            repeatCommand.TabIndex = 7;
+            repeatCommand.Text = "Repeat";
+            repeatCommand.UseVisualStyleBackColor = false;
+            repeatCommand.Click += repeatCommand_Click;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new System.Drawing.Point(220, 85);
+            textBox1.Multiline = true;
+            textBox1.Name = "textBox1";
+            textBox1.PlaceholderText = "<Hint: Use Ctrl+i for Tabs>";
+            textBox1.Size = new System.Drawing.Size(463, 417);
+            textBox1.TabIndex = 11;
+            // 
+            // gridPanel
+            // 
+            gridPanel.AutoSize = true;
+            gridPanel.BackColor = System.Drawing.SystemColors.Window;
+            gridPanel.Location = new System.Drawing.Point(689, 85);
+            gridPanel.Name = "gridPanel";
+            gridPanel.Size = new System.Drawing.Size(414, 417);
+            gridPanel.TabIndex = 12;
+            // 
+            // title
+            // 
+            title.AutoSize = true;
+            title.Font = new Font("Segoe UI Black", 13.875F, System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic, GraphicsUnit.Point);
+            title.ForeColor = Color.DarkSlateGray;
+            title.Location = new System.Drawing.Point(218, 17);
+            title.Name = "title";
+            title.Size = new System.Drawing.Size(527, 50);
+            title.TabIndex = 13;
+            title.Text = "Programming Learning App";
+            title.Click += label1_Click_1;
+            // 
+            // WindowsForm
+            // 
+            ClientSize = new System.Drawing.Size(1115, 770);
+            Controls.Add(title);
+            Controls.Add(gridPanel);
+            Controls.Add(textBox1);
+            Controls.Add(output);
+            Controls.Add(metricsButton);
+            Controls.Add(runButton);
+            Controls.Add(programSelecter);
+            Name = "WindowsForm";
+            Text = "Programming Learning App";
+            Load += WindowsForm_Load;
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+
+
+        /// <summary>
+        /// This method is for a block-based interface.
+        /// </summary>
+        /// <param name="repeatAmount"></param>
+        private void AddTurnCommand(LeftRight leftRightDirection)
+        {
+            TurnCommandBlock turnCommandBlock = new TurnCommandBlock(leftRightDirection);
+            commandBlocks.Add(turnCommandBlock);
+            this.Controls.Add(turnCommandBlock);
+        }
+
+        /// <summary>
+        /// This method is for a block-based interface.
+        /// </summary>
+        /// <param name="repeatAmount"></param>
+        private void AddMoveCommand(int moveAmount)
+        {
+            MoveCommandBlock moveCommandBlock = new MoveCommandBlock(moveAmount);
+            commandBlocks.Add(moveCommandBlock);
+        }
+
+        /// <summary>
+        /// This method is for a block-based interface.
+        /// </summary>
+        /// <param name="repeatAmount"></param>
+        private void AddRepeatCommand(int repeatAmount)
+        {
+            RepeatCommandBlock repeatCommandBlock = new RepeatCommandBlock(repeatAmount);
+            commandBlocks.Add(repeatCommandBlock);
+        }
+
+        private void metricsButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void runButton_Click(object sender, EventArgs e)
+        {
+            Refresh();
+        }
+
+        private void programSelecter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void WindowsForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void grid_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void turnCommand_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void moveCommand_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void repeatCommand_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void command_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void program_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+    }
+}

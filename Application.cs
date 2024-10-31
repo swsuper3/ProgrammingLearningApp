@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ProgrammingLearningApp
 {
-    public class Application
+    public class MyApplication
     {
         ProgramLoader programLoader = new ProgramLoader();
 
-        public Application()
+        public MyApplication()
         {
             programLoader = new ProgramLoader();
         }
