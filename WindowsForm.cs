@@ -8,18 +8,23 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Windows;
 using System.Diagnostics;
+using System.Security;
+using System.IO;
+using Microsoft.Win32;
 
 namespace ProgrammingLearningApp
 {
     // For creating the Form, we used the following guides:
     // https://learn.microsoft.com/en-us/dotnet/desktop/winforms/how-to-create-a-windows-forms-application-from-the-command-line?view=netframeworkdesktop-4.8
     // https://learn.microsoft.com/en-us/visualstudio/ide/create-csharp-winform-visual-studio?view=vs-2022
+    // https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/how-to-open-files-using-the-openfiledialog-component?view=netframeworkdesktop-4.8
 
     public class WindowsForm : Form
     {
         ProgramLoader programLoader;
         World world;
         Random random;
+        System.Windows.Forms.OpenFileDialog openFileDialog;
 
         public WindowsForm()
         {
@@ -27,6 +32,12 @@ namespace ProgrammingLearningApp
             programLoader = new ProgramLoader();
             world = new World();
             random = new Random();
+            openFileDialog = new System.Windows.Forms.OpenFileDialog()
+            {
+                FileName = "Select a text file",
+                Filter = "Text files (*.txt)|*.txt",
+                Title = "Open text file"
+            };
         }
 
         [STAThread]         // This specifies that our app is a single-threaded apartment
@@ -160,6 +171,7 @@ namespace ProgrammingLearningApp
             textBox1.PlaceholderText = "<Hint: Use Ctrl+i for Tabs>";
             textBox1.Size = new System.Drawing.Size(463, 417);
             textBox1.TabIndex = 11;
+            textBox1.ScrollBars = ScrollBars.Both;
             // 
             // gridPanel
             // 
@@ -247,11 +259,7 @@ namespace ProgrammingLearningApp
             // Attempt to get the metrics from the program
             try
             {
-                string[] textBoxText = textBox1.Text.Split(' ');
-                Program program = textBoxText[0] != "Program"
-                    ? new Program(programList)
-                    : programLoader.CreateProgram(textBoxText[1]);
-                
+                Program program = new Program(programList);
                 output.Text = program.GetMetrics().ToString();
             }
             catch
@@ -275,11 +283,7 @@ namespace ProgrammingLearningApp
 
             try
             {
-                string[] textBoxText = textBox1.Text.Split(' ');
-                Program program = textBoxText[0] != "Program"
-                    ? new Program(programList)
-                    : programLoader.CreateProgram(textBoxText[1]);
-
+                Program program = new Program(programList);
                 program.Execute(world);
                 output.Text = program + ". End state: " + world.Character.Position + " facing " + world.Character.ViewDirection;
             }
@@ -292,22 +296,23 @@ namespace ProgrammingLearningApp
 
         private void programSelecter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (programSelecter.SelectedIndex == 0)      // Basic
-            {
-                textBox1.Text = "Program basic" + random.Next(1, 3) + ".txt has been loaded.";
-            }
-            else if (programSelecter.SelectedIndex == 1) // Advanced
-            {
-                textBox1.Text = "Program advanced" + random.Next(1, 3) + ".txt has been loaded.";
-            }
-            else if (programSelecter.SelectedIndex == 2) // Expert
-            {
-                textBox1.Text = "Program expert" + random.Next(1, 3) + ".txt has been loaded.";
-            }
-            else if (programSelecter.SelectedIndex == 3) // Load FromFile
-            {
+            string fileName = "../../../Programs/empty.txt";
 
-            }
+            if (programSelecter.SelectedIndex == 0)      // Basic
+                fileName = "../../../Programs/basic" + random.Next(1, 3) + ".txt";
+
+            else if (programSelecter.SelectedIndex == 1) // Advanced
+                fileName = "../../../Programs/advanced" + random.Next(1, 3) + ".txt";
+
+            else if (programSelecter.SelectedIndex == 2) // Expert
+                fileName = "../../../Programs/expert" + random.Next(1, 3) + ".txt";
+
+            else if (programSelecter.SelectedIndex == 3) // Load FromFile
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    fileName = openFileDialog.FileName;
+
+            var sr = new StreamReader(fileName);
+            textBox1.Text = sr.ReadToEnd();
         }
 
         private void WindowsForm_Load(object sender, EventArgs e)
