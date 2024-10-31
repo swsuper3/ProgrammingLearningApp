@@ -17,10 +17,13 @@ namespace ProgrammingLearningApp
 
     public class WindowsForm : Form
     {
+        ProgramLoader programLoader;
+        World world;
         public WindowsForm()
         {
             InitializeComponent();
-            this.KeyPreview = true;
+            programLoader = new ProgramLoader();
+            world = new World(); 
         }
 
         [STAThread]         // This specifies that our app is a single-threaded apartment
@@ -102,10 +105,11 @@ namespace ProgrammingLearningApp
             // 
             output.ForeColor = Color.Gainsboro;
             output.Location = new System.Drawing.Point(219, 566);
+            output.Multiline = true;
             output.Name = "output";
             output.PlaceholderText = "<output>";
             output.ReadOnly = true;
-            output.Size = new System.Drawing.Size(400, 39);
+            output.Size = new System.Drawing.Size(884, 167);
             output.TabIndex = 4;
             output.TextChanged += textBox1_TextChanged;
             // 
@@ -232,7 +236,27 @@ namespace ProgrammingLearningApp
 
         private void runButton_Click(object sender, EventArgs e)
         {
-            Refresh();
+            // 
+            string[] programText = textBox1.Text.Split('\n');
+            List<string> programList = new List<string>();
+
+            for (int i = 0; i < programText.Length; i++)
+                programList.Add(programText[i]);
+
+            Path path = new Path(world.Character);
+            world.Attach(path);
+
+            try
+            {
+                Program program = new Program(programList);
+                program.Execute(world);
+                output.Text = program + ". End state: "  + world.Character.Position + " facing " + world.Character.ViewDirection;
+            }
+            catch
+            {
+                output.Text = "Invalid program. Please check your syntax and try again.";
+            }
+            
         }
 
         private void programSelecter_SelectedIndexChanged(object sender, EventArgs e)
