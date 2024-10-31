@@ -20,6 +20,7 @@ namespace ProgrammingLearningApp
         public WindowsForm()
         {
             InitializeComponent();
+            this.KeyPreview = true;
         }
 
         [STAThread]         // This specifies that our app is a single-threaded apartment
@@ -39,15 +40,14 @@ namespace ProgrammingLearningApp
         private List<CommandBlock> commandBlocks = new List<CommandBlock>();
         private ComboBox programSelecter;
         private Button metricsButton;
-        private FlowLayoutPanel gridDisplay;
-        private TableLayoutPanel grid;
         private TextBox output;
         private Button turnCommand;
         private Button moveCommand;
         private Button repeatCommand;
-        private ListBox Program;
-        private TreeView treeView1;
         private Button runButton;
+        private Panel gridPanel;
+        private Label title;
+        private TextBox textBox1;
 
 
         private void InitializeComponent()
@@ -55,15 +55,13 @@ namespace ProgrammingLearningApp
             runButton = new Button();
             metricsButton = new Button();
             programSelecter = new ComboBox();
-            gridDisplay = new FlowLayoutPanel();
-            grid = new TableLayoutPanel();
             output = new TextBox();
             turnCommand = new Button();
             moveCommand = new Button();
             repeatCommand = new Button();
-            Program = new ListBox();
-            treeView1 = new TreeView();
-            gridDisplay.SuspendLayout();
+            textBox1 = new TextBox();
+            gridPanel = new Panel();
+            title = new Label();
             SuspendLayout();
             // 
             // runButton
@@ -99,33 +97,6 @@ namespace ProgrammingLearningApp
             programSelecter.TabIndex = 2;
             programSelecter.Text = "Load program";
             programSelecter.SelectedIndexChanged += programSelecter_SelectedIndexChanged;
-            // 
-            // gridDisplay
-            // 
-            gridDisplay.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            gridDisplay.Controls.Add(grid);
-            gridDisplay.Location = new System.Drawing.Point(689, 82);
-            gridDisplay.Name = "gridDisplay";
-            gridDisplay.Size = new System.Drawing.Size(414, 421);
-            gridDisplay.TabIndex = 3;
-            // 
-            // grid
-            // 
-            grid.ColumnCount = 4;
-            grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            grid.Location = new System.Drawing.Point(3, 3);
-            grid.Name = "grid";
-            grid.RowCount = 4;
-            grid.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            grid.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            grid.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            grid.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            grid.Size = new System.Drawing.Size(386, 279);
-            grid.TabIndex = 0;
-            grid.Paint += grid_Paint;
             // 
             // output
             // 
@@ -174,59 +145,80 @@ namespace ProgrammingLearningApp
             repeatCommand.UseVisualStyleBackColor = false;
             repeatCommand.Click += repeatCommand_Click;
             // 
-            // Program
+            // textBox1
             // 
-            Program.ForeColor = System.Drawing.SystemColors.Window;
-            Program.FormattingEnabled = true;
-            Program.ItemHeight = 32;
-            Program.Location = new System.Drawing.Point(219, 82);
-            Program.Name = "Program";
-            Program.Size = new System.Drawing.Size(464, 420);
-            Program.TabIndex = 8;
-            Program.SelectedIndexChanged += program_SelectedIndexChanged;
+            textBox1.Location = new System.Drawing.Point(220, 85);
+            textBox1.Multiline = true;
+            textBox1.Name = "textBox1";
+            textBox1.PlaceholderText = "<Hint: Use Ctrl+i for Tabs>";
+            textBox1.Size = new System.Drawing.Size(463, 417);
+            textBox1.TabIndex = 11;
             // 
-            // treeView1
+            // gridPanel
             // 
-            treeView1.Location = new System.Drawing.Point(243, 128);
-            treeView1.Name = "treeView1";
-            treeView1.Size = new System.Drawing.Size(242, 194);
-            treeView1.TabIndex = 9;
+            gridPanel.AutoSize = true;
+            gridPanel.BackColor = System.Drawing.SystemColors.Window;
+            gridPanel.Location = new System.Drawing.Point(689, 85);
+            gridPanel.Name = "gridPanel";
+            gridPanel.Size = new System.Drawing.Size(414, 417);
+            gridPanel.TabIndex = 12;
+            // 
+            // title
+            // 
+            title.AutoSize = true;
+            title.Font = new Font("Segoe UI Black", 13.875F, System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic, GraphicsUnit.Point);
+            title.ForeColor = Color.DarkSlateGray;
+            title.Location = new System.Drawing.Point(218, 17);
+            title.Name = "title";
+            title.Size = new System.Drawing.Size(527, 50);
+            title.TabIndex = 13;
+            title.Text = "Programming Learning App";
+            title.Click += label1_Click_1;
             // 
             // WindowsForm
             // 
             ClientSize = new System.Drawing.Size(1115, 770);
-            Controls.Add(treeView1);
-            Controls.Add(Program);
-            Controls.Add(repeatCommand);
-            Controls.Add(moveCommand);
-            Controls.Add(turnCommand);
+            Controls.Add(title);
+            Controls.Add(gridPanel);
+            Controls.Add(textBox1);
             Controls.Add(output);
-            Controls.Add(gridDisplay);
             Controls.Add(metricsButton);
             Controls.Add(runButton);
             Controls.Add(programSelecter);
             Name = "WindowsForm";
             Text = "Programming Learning App";
             Load += WindowsForm_Load;
-            gridDisplay.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
 
+
+
+        /// <summary>
+        /// This method is for a block-based interface.
+        /// </summary>
+        /// <param name="repeatAmount"></param>
         private void AddTurnCommand(LeftRight leftRightDirection)
         {
             TurnCommandBlock turnCommandBlock = new TurnCommandBlock(leftRightDirection);
             commandBlocks.Add(turnCommandBlock);
             this.Controls.Add(turnCommandBlock);
-            this.turnCommandBlock.Click += new System.EventHandler(th)
         }
 
+        /// <summary>
+        /// This method is for a block-based interface.
+        /// </summary>
+        /// <param name="repeatAmount"></param>
         private void AddMoveCommand(int moveAmount)
         {
             MoveCommandBlock moveCommandBlock = new MoveCommandBlock(moveAmount);
             commandBlocks.Add(moveCommandBlock);
         }
 
+        /// <summary>
+        /// This method is for a block-based interface.
+        /// </summary>
+        /// <param name="repeatAmount"></param>
         private void AddRepeatCommand(int repeatAmount)
         {
             RepeatCommandBlock repeatCommandBlock = new RepeatCommandBlock(repeatAmount);
@@ -240,7 +232,7 @@ namespace ProgrammingLearningApp
 
         private void runButton_Click(object sender, EventArgs e)
         {
-            InitializeComponent();
+            Refresh();
         }
 
         private void programSelecter_SelectedIndexChanged(object sender, EventArgs e)
@@ -265,17 +257,14 @@ namespace ProgrammingLearningApp
 
         private void turnCommand_Click(object sender, EventArgs e)
         {
-            AddTurnCommand(LeftRight.Left);
         }
 
         private void moveCommand_Click(object sender, EventArgs e)
         {
-            AddMoveCommand(4);
         }
 
         private void repeatCommand_Click(object sender, EventArgs e)
         {
-            AddRepeatCommand(3);
         }
 
         private void command_Click(object sender, EventArgs e)
@@ -289,6 +278,21 @@ namespace ProgrammingLearningApp
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
         {
 
         }
