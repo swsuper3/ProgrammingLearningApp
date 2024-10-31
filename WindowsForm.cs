@@ -50,7 +50,7 @@ namespace ProgrammingLearningApp
         private Button moveCommand;
         private Button repeatCommand;
         private Button runButton;
-        private Panel gridPanel;
+        private GridPanel gridPanel;
         private Label title;
         private TextBox textBox1;
 
@@ -65,7 +65,7 @@ namespace ProgrammingLearningApp
             moveCommand = new Button();
             repeatCommand = new Button();
             textBox1 = new TextBox();
-            gridPanel = new Panel();
+            gridPanel = new GridPanel();
             title = new Label();
             SuspendLayout();
             // 
@@ -98,7 +98,7 @@ namespace ProgrammingLearningApp
             programSelecter.Items.AddRange(new object[] { "Basic", "Advanced", "Expert", "From file..." });
             programSelecter.Location = new System.Drawing.Point(12, 27);
             programSelecter.Name = "programSelecter";
-            programSelecter.Size = new System.Drawing.Size(200, 40);
+            programSelecter.Size = new System.Drawing.Size(200, 28);
             programSelecter.TabIndex = 2;
             programSelecter.Text = "Load program";
             programSelecter.SelectedIndexChanged += programSelecter_SelectedIndexChanged;
@@ -162,12 +162,15 @@ namespace ProgrammingLearningApp
             // 
             // gridPanel
             // 
+            gridPanel.AutoScroll = true;
+            gridPanel.AutoScrollMinSize = new System.Drawing.Size(828, 834);
             gridPanel.AutoSize = true;
             gridPanel.BackColor = System.Drawing.SystemColors.Window;
             gridPanel.Location = new System.Drawing.Point(689, 85);
             gridPanel.Name = "gridPanel";
             gridPanel.Size = new System.Drawing.Size(414, 417);
             gridPanel.TabIndex = 12;
+            gridPanel.Paint += gridPanel_Paint;
             // 
             // title
             // 
@@ -176,7 +179,7 @@ namespace ProgrammingLearningApp
             title.ForeColor = Color.DarkSlateGray;
             title.Location = new System.Drawing.Point(218, 17);
             title.Name = "title";
-            title.Size = new System.Drawing.Size(527, 50);
+            title.Size = new System.Drawing.Size(342, 32);
             title.TabIndex = 13;
             title.Text = "Programming Learning App";
             title.Click += label1_Click_1;
@@ -338,6 +341,26 @@ namespace ProgrammingLearningApp
         private void label1_Click_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void gridPanel_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics graphics = e.Graphics;
+            Pen blackPen = new Pen(Brushes.Black);
+
+            int boxWidth = 50;
+            int boxHeight = 50;
+
+            int gridWidth = 20;
+            int gridHeight = 20;
+
+            for (int i = 0; i < gridWidth; i++)
+            {
+                for (int j = 0; j < gridHeight; j++)
+                {
+                    graphics.DrawRectangle(blackPen, new Rectangle(i * boxWidth, j * boxHeight, boxWidth, boxHeight));
+                }
+            }
         }
     }
 }
