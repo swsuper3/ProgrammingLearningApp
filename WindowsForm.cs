@@ -19,6 +19,8 @@ namespace ProgrammingLearningApp
     {
         ProgramLoader programLoader;
         World world;
+        Random random;
+
         public WindowsForm()
         {
             InitializeComponent();
@@ -231,18 +233,35 @@ namespace ProgrammingLearningApp
 
         private void metricsButton_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void runButton_Click(object sender, EventArgs e)
-        {
-            // 
+            // Parse the text from the textBox into a list
             string[] programText = textBox1.Text.Split('\n');
             List<string> programList = new List<string>();
 
             for (int i = 0; i < programText.Length; i++)
                 programList.Add(programText[i]);
 
+            // Attempt to get the metrics from the program
+            try
+            {
+                Program program = new Program(programList);
+                output.Text = program.GetMetrics().ToString();
+            }
+            catch
+            {
+                output.Text = "Invalid program. Please check your syntax and try again.";
+            }
+        }
+
+        private void runButton_Click(object sender, EventArgs e)
+        {
+            // Parse the text from the textBox into a list
+            string[] programText = textBox1.Text.Split('\n');
+            List<string> programList = new List<string>();
+
+            for (int i = 0; i < programText.Length; i++)
+                programList.Add(programText[i]);
+
+            // Attempt to execute the program
             Path path = new Path(world.Character);
             world.Attach(path);
 
