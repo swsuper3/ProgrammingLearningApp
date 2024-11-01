@@ -25,7 +25,7 @@ namespace ProgrammingLearningApp
         {
             InitializeComponent();
             programLoader = new ProgramLoader();
-            world = new World(); 
+            world = new World();
         }
 
         [STAThread]         // This specifies that our app is a single-threaded apartment
@@ -238,7 +238,7 @@ namespace ProgrammingLearningApp
         private void metricsButton_Click(object sender, EventArgs e)
         {
             // Parse the text from the textBox into a list
-            string[] programText = textBox1.Text.Split('\n');
+            string[] programText = textBox1.Text.Split("\r\n");
             List<string> programList = new List<string>();
 
             for (int i = 0; i < programText.Length; i++)
@@ -259,7 +259,7 @@ namespace ProgrammingLearningApp
         private void runButton_Click(object sender, EventArgs e)
         {
             // Parse the text from the textBox into a list
-            string[] programText = textBox1.Text.Split('\n');
+            string[] programText = textBox1.Text.Split("\r\n");
             List<string> programList = new List<string>();
 
             for (int i = 0; i < programText.Length; i++)
@@ -273,11 +273,12 @@ namespace ProgrammingLearningApp
             {
                 Program program = new Program(programList);
                 program.Execute(world);
-                output.Text = program + ". End state: "  + world.Character.Position + " facing " + world.Character.ViewDirection;
+                output.Text = program + ". End state: " + world.Character.Position + " facing " + world.Character.ViewDirection;
             }
-            catch
+            catch (Exception exception)
             {
                 output.Text = "Invalid program. Please check your syntax and try again.";
+                Debug.WriteLine(exception.Message);
             }
 
             gridPanel.Invalidate();
