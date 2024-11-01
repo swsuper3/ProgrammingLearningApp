@@ -278,7 +278,8 @@ namespace ProgrammingLearningApp
             {
                 output.Text = "Invalid program. Please check your syntax and try again.";
             }
-            
+
+            gridPanel.Invalidate();
         }
 
         private void programSelecter_SelectedIndexChanged(object sender, EventArgs e)
@@ -346,6 +347,8 @@ namespace ProgrammingLearningApp
         private void gridPanel_Paint(object sender, PaintEventArgs e)
         {
             Graphics graphics = e.Graphics;
+            Image image = Image.FromFile("../../../pacman.png");
+
 
             graphics.TranslateTransform(gridPanel.AutoScrollPosition.X, gridPanel.AutoScrollPosition.Y);
             Pen blackPen = new Pen(Brushes.Black);
@@ -363,6 +366,23 @@ namespace ProgrammingLearningApp
                     graphics.DrawRectangle(blackPen, new Rectangle(i * boxWidth, j * boxHeight, boxWidth, boxHeight));
                 }
             }
+
+            switch (world.Character.ViewDirection)
+            {
+                case Direction.West:
+                    image.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                    break;
+                case Direction.North:
+                    image.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    break;
+                case Direction.South:
+                    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    break;
+            }
+
+
+            Point characterPosition = world.Character.Position;
+            graphics.DrawImage(image, new Rectangle(characterPosition.x * boxWidth, characterPosition.y * boxHeight, boxWidth, boxHeight));
         }
     }
 }
