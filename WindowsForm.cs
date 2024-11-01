@@ -50,7 +50,7 @@ namespace ProgrammingLearningApp
         private Button moveCommand;
         private Button repeatCommand;
         private Button runButton;
-        private GridPanel gridPanel;
+        private Panel gridPanel;
         private Label title;
         private TextBox textBox1;
 
@@ -65,7 +65,7 @@ namespace ProgrammingLearningApp
             moveCommand = new Button();
             repeatCommand = new Button();
             textBox1 = new TextBox();
-            gridPanel = new GridPanel();
+            gridPanel = new Panel();
             title = new Label();
             SuspendLayout();
             // 
@@ -346,6 +346,8 @@ namespace ProgrammingLearningApp
         private void gridPanel_Paint(object sender, PaintEventArgs e)
         {
             Graphics graphics = e.Graphics;
+
+            graphics.TranslateTransform(gridPanel.AutoScrollPosition.X, gridPanel.AutoScrollPosition.Y);
             Pen blackPen = new Pen(Brushes.Black);
 
             int boxWidth = 50;
