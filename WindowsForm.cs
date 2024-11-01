@@ -153,6 +153,7 @@ namespace ProgrammingLearningApp
             // 
             // textBox1
             // 
+            textBox1.AcceptsTab = true;
             textBox1.Location = new System.Drawing.Point(220, 85);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
