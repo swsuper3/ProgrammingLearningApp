@@ -31,9 +31,10 @@ namespace TestProject
         {
             //Arrange
             Character c = new Character();
+            World world = new World(c);
 
             //Act
-            c.Move(amountToMove);
+            world.MovePlayer(amountToMove);
 
             //Assert
             Assert.Equal(amountToMove, c.Position.x);
