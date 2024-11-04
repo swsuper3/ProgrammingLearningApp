@@ -19,6 +19,7 @@ namespace ProgrammingLearningApp
     {
         ProgramLoader programLoader;
         World world;
+        Path path;
         Random random;
 
         public WindowsForm()
@@ -26,6 +27,9 @@ namespace ProgrammingLearningApp
             InitializeComponent();
             programLoader = new ProgramLoader();
             world = new World();
+
+            path = new Path(world.Character);
+            world.Attach(path);
         }
 
         [STAThread]         // This specifies that our app is a single-threaded apartment
@@ -354,6 +358,7 @@ namespace ProgrammingLearningApp
 
             graphics.TranslateTransform(gridPanel.AutoScrollPosition.X, gridPanel.AutoScrollPosition.Y);
             Pen blackPen = new Pen(Brushes.Black);
+            Pen purplePen = new Pen(Brushes.Purple, 8f);
 
             int boxWidth = 50;
             int boxHeight = 50;
@@ -369,6 +374,17 @@ namespace ProgrammingLearningApp
                 }
             }
 
+            List<Point> playerPath = path.CellsAlongPath;
+
+            //for(int i = 0; i < playerPath.Count-1; i++)
+            //{
+            //    graphics.DrawLine(purplePen, playerPath[i].ToSystemPoint(), playerPath[i+1].ToSystemPoint());
+            //}
+
+            if (playerPath.Count > 1) {
+                graphics.DrawLines(purplePen, ParsePoints(playerPath, boxWidth, boxHeight));
+            }
+
             switch (world.Character.ViewDirection)
             {
                 case Direction.West:
@@ -382,9 +398,21 @@ namespace ProgrammingLearningApp
                     break;
             }
 
-
             Point characterPosition = world.Character.Position;
             graphics.DrawImage(image, new Rectangle(characterPosition.x * boxWidth, characterPosition.y * boxHeight, boxWidth, boxHeight));
         }
+
+        PointF[] ParsePoints(List<Point> points, int boxWidth, int boxHeight)
+        {
+            List<PointF> output = new List<PointF>();
+
+            foreach(Point point in points)
+            {
+                output.Add(new PointF((point.x + 0.5f) * boxWidth, (point.y + 0.5f) * boxHeight));
+            }
+
+            return output.ToArray();
+        }
+
     }
 }
