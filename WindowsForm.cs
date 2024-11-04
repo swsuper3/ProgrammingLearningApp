@@ -358,6 +358,7 @@ namespace ProgrammingLearningApp
 
             graphics.TranslateTransform(gridPanel.AutoScrollPosition.X, gridPanel.AutoScrollPosition.Y);
             Pen blackPen = new Pen(Brushes.Black);
+            Pen redPen = new Pen(Brushes.Red, 3f);
             Pen purplePen = new Pen(Brushes.Purple, 8f);
 
             int boxWidth = 50;
@@ -373,6 +374,8 @@ namespace ProgrammingLearningApp
                     graphics.DrawRectangle(blackPen, new Rectangle(i * boxWidth, j * boxHeight, boxWidth, boxHeight));
                 }
             }
+
+            graphics.DrawRectangle(redPen, new Rectangle(0, 0, boxWidth, boxHeight));
 
             List<Point> playerPath = path.CellsAlongPath;
 
