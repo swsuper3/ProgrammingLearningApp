@@ -376,11 +376,6 @@ namespace ProgrammingLearningApp
 
             List<Point> playerPath = path.CellsAlongPath;
 
-            //for(int i = 0; i < playerPath.Count-1; i++)
-            //{
-            //    graphics.DrawLine(purplePen, playerPath[i].ToSystemPoint(), playerPath[i+1].ToSystemPoint());
-            //}
-
             if (playerPath.Count > 1) {
                 graphics.DrawLines(purplePen, ParsePoints(playerPath, boxWidth, boxHeight));
             }
