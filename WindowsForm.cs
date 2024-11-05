@@ -8,12 +8,16 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Windows;
 using System.Diagnostics;
+using System.Security;
+using System.IO;
+using Microsoft.Win32;
 
 namespace ProgrammingLearningApp
 {
     // For creating the Form, we used the following guides:
     // https://learn.microsoft.com/en-us/dotnet/desktop/winforms/how-to-create-a-windows-forms-application-from-the-command-line?view=netframeworkdesktop-4.8
     // https://learn.microsoft.com/en-us/visualstudio/ide/create-csharp-winform-visual-studio?view=vs-2022
+    // https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/how-to-open-files-using-the-openfiledialog-component?view=netframeworkdesktop-4.8
 
     public class WindowsForm : Form
     {
@@ -21,13 +25,20 @@ namespace ProgrammingLearningApp
         World world;
         Path path;
         Random random;
+        System.Windows.Forms.OpenFileDialog openFileDialog;
 
         public WindowsForm()
         {
             InitializeComponent();
             programLoader = new ProgramLoader();
             world = new World();
-
+            random = new Random();
+            openFileDialog = new System.Windows.Forms.OpenFileDialog()
+            {
+                FileName = "Select a text file",
+                Filter = "Text files (*.txt)|*.txt",
+                Title = "Open text file"
+            };
             path = new Path(world.Character);
             world.Attach(path);
         }
@@ -164,6 +175,7 @@ namespace ProgrammingLearningApp
             textBox1.PlaceholderText = "<Hint: Use Ctrl+i for Tabs>";
             textBox1.Size = new System.Drawing.Size(463, 417);
             textBox1.TabIndex = 11;
+            textBox1.ScrollBars = ScrollBars.Both;
             // 
             // gridPanel
             // 
@@ -290,7 +302,23 @@ namespace ProgrammingLearningApp
 
         private void programSelecter_SelectedIndexChanged(object sender, EventArgs e)
         {
+            string fileName = "../../../Programs/empty.txt";
 
+            if (programSelecter.SelectedIndex == 0)      // Basic
+                fileName = "../../../Programs/basic" + random.Next(1, 3) + ".txt";
+
+            else if (programSelecter.SelectedIndex == 1) // Advanced
+                fileName = "../../../Programs/advanced" + random.Next(1, 3) + ".txt";
+
+            else if (programSelecter.SelectedIndex == 2) // Expert
+                fileName = "../../../Programs/expert" + random.Next(1, 3) + ".txt";
+
+            else if (programSelecter.SelectedIndex == 3) // Load FromFile
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    fileName = openFileDialog.FileName;
+
+            var sr = new StreamReader(fileName);
+            textBox1.Text = sr.ReadToEnd();
         }
 
         private void WindowsForm_Load(object sender, EventArgs e)

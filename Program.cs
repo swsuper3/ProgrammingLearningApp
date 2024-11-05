@@ -112,5 +112,20 @@
 
             return string.Join(", ", commandStrings);
         }
+
+        /// <summary>
+        /// This method returns all commands in one string, separated by enters (\n)
+        /// </summary>
+        /// <returns></returns>
+        public string GetStringList()
+        {
+            List<string> commandStrings = new List<string>();
+            foreach (Command c in commands)
+            {
+                commandStrings.Add(c.ToString());
+            }
+
+            return string.Join("\n", commandStrings);
+        }
     }
 }
