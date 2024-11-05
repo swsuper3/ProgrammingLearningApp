@@ -72,9 +72,14 @@
                         break;
 
                     case "Turn":
-                        command = terms[1] == "left"
-                            ? new TurnCommand(turnDirection: LeftRight.Left)
-                            : new TurnCommand(turnDirection: LeftRight.Right);
+                        if (terms[1] == "left")
+                            command = new TurnCommand(LeftRight.Left);
+                        else if (terms[1] == "right")
+                            command = new TurnCommand(LeftRight.Right);
+                        else
+                        {
+                            throw new Exception("Unknown command: " + terms[0] + " " + terms[1]);
+                        }
                         break;
 
                     case "Repeat":
