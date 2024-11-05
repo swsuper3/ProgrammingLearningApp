@@ -19,13 +19,17 @@ namespace ProgrammingLearningApp
     {
         ProgramLoader programLoader;
         World world;
+        Path path;
         Random random;
 
         public WindowsForm()
         {
             InitializeComponent();
             programLoader = new ProgramLoader();
-            world = new World(); 
+            world = new World();
+
+            path = new Path(world.Character);
+            world.Attach(path);
         }
 
         [STAThread]         // This specifies that our app is a single-threaded apartment
@@ -50,7 +54,7 @@ namespace ProgrammingLearningApp
         private Button moveCommand;
         private Button repeatCommand;
         private Button runButton;
-        private GridPanel gridPanel;
+        private Panel gridPanel;
         private Label title;
         private TextBox textBox1;
 
@@ -65,7 +69,7 @@ namespace ProgrammingLearningApp
             moveCommand = new Button();
             repeatCommand = new Button();
             textBox1 = new TextBox();
-            gridPanel = new GridPanel();
+            gridPanel = new Panel();
             title = new Label();
             SuspendLayout();
             // 
@@ -153,6 +157,7 @@ namespace ProgrammingLearningApp
             // 
             // textBox1
             // 
+            textBox1.AcceptsTab = true;
             textBox1.Location = new System.Drawing.Point(220, 85);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
@@ -237,7 +242,7 @@ namespace ProgrammingLearningApp
         private void metricsButton_Click(object sender, EventArgs e)
         {
             // Parse the text from the textBox into a list
-            string[] programText = textBox1.Text.Split('\n');
+            string[] programText = textBox1.Text.Split("\r\n");
             List<string> programList = new List<string>();
 
             for (int i = 0; i < programText.Length; i++)
@@ -258,7 +263,7 @@ namespace ProgrammingLearningApp
         private void runButton_Click(object sender, EventArgs e)
         {
             // Parse the text from the textBox into a list
-            string[] programText = textBox1.Text.Split('\n');
+            string[] programText = textBox1.Text.Split("\r\n");
             List<string> programList = new List<string>();
 
             for (int i = 0; i < programText.Length; i++)
@@ -272,13 +277,15 @@ namespace ProgrammingLearningApp
             {
                 Program program = new Program(programList);
                 program.Execute(world);
-                output.Text = program + ". End state: "  + world.Character.Position + " facing " + world.Character.ViewDirection;
+                output.Text = program + ". End state: " + world.Character.Position + " facing " + world.Character.ViewDirection;
             }
-            catch
+            catch (Exception exception)
             {
                 output.Text = "Invalid program. Please check your syntax and try again.";
+                Debug.WriteLine(exception.Message);
             }
-            
+
+            gridPanel.Invalidate();
         }
 
         private void programSelecter_SelectedIndexChanged(object sender, EventArgs e)
@@ -346,13 +353,37 @@ namespace ProgrammingLearningApp
         private void gridPanel_Paint(object sender, PaintEventArgs e)
         {
             Graphics graphics = e.Graphics;
+            Image image = Image.FromFile("../../../pacman.png");
+
+
+            graphics.TranslateTransform(gridPanel.AutoScrollPosition.X, gridPanel.AutoScrollPosition.Y);
             Pen blackPen = new Pen(Brushes.Black);
+            Pen redPen = new Pen(Brushes.Red, 3f);
+            Pen purplePen = new Pen(Brushes.Purple, 8f);
+
+            List<Point> playerPath = path.CellsAlongPath;
 
             int boxWidth = 50;
             int boxHeight = 50;
 
-            int gridWidth = 20;
-            int gridHeight = 20;
+            int minX = 0;
+            int maxX = 9;
+            int minY = 0;
+            int maxY = 9;
+
+            if (playerPath.Count > 1)
+            {
+                minX = Math.Min(minX, playerPath.Min(p => p.x));
+                minY = Math.Min(minY, playerPath.Min(p => p.y));
+                maxX = Math.Max(maxX, playerPath.Max(p => p.x));
+                maxY = Math.Max(maxY, playerPath.Max(p => p.y));
+            }
+
+
+            int gridWidth = maxX - minX + 1;
+            int gridHeight = maxY - minY + 1;
+
+            gridPanel.AutoScrollMinSize = new System.Drawing.Size(gridWidth*boxWidth, gridHeight*boxHeight);
 
             for (int i = 0; i < gridWidth; i++)
             {
@@ -361,6 +392,42 @@ namespace ProgrammingLearningApp
                     graphics.DrawRectangle(blackPen, new Rectangle(i * boxWidth, j * boxHeight, boxWidth, boxHeight));
                 }
             }
+
+            graphics.DrawRectangle(redPen, new Rectangle(-minX * boxWidth, -minY * boxHeight, boxWidth, boxHeight));
+
+            if (playerPath.Count > 1)
+            {
+                graphics.DrawLines(purplePen, ParsePoints(playerPath, boxWidth, boxHeight, minX, minY));
+            }
+
+            switch (world.Character.ViewDirection)
+            {
+                case Direction.West:
+                    image.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                    break;
+                case Direction.North:
+                    image.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    break;
+                case Direction.South:
+                    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    break;
+            }
+
+            Point characterPosition = world.Character.Position;
+            graphics.DrawImage(image, new Rectangle((characterPosition.x - minX) * boxWidth, (characterPosition.y - minY) * boxHeight, boxWidth, boxHeight));
         }
+
+        PointF[] ParsePoints(List<Point> points, int boxWidth, int boxHeight, int minX, int minY)
+        {
+            List<PointF> output = new List<PointF>();
+
+            foreach (Point point in points)
+            {
+                output.Add(new PointF((point.x + 0.5f - minX) * boxWidth, (point.y + 0.5f - minY) * boxHeight));
+            }
+
+            return output.ToArray();
+        }
+
     }
 }

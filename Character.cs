@@ -15,10 +15,6 @@ namespace ProgrammingLearningApp
         LinkedListNode<Direction> viewDirection;
         Point position;
 
-        private List<IMyObserver<Character>> observers = new List<IMyObserver<Character>>();
-
-        HashSet<Point> obstacles;
-
         public Character()
         {
             Direction[] directions = (Direction[]) Enum.GetValues(typeof(Direction));
@@ -29,12 +25,6 @@ namespace ProgrammingLearningApp
 
             this.position = new Point();
 
-            obstacles = new HashSet<Point>();
-        }
-
-        public Character(HashSet<Point> obstacles) : this()
-        {
-            this.obstacles = obstacles;
         }
 
         public void SetPosition(Point newPosition)
