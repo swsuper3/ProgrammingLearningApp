@@ -361,11 +361,29 @@ namespace ProgrammingLearningApp
             Pen redPen = new Pen(Brushes.Red, 3f);
             Pen purplePen = new Pen(Brushes.Purple, 8f);
 
+            List<Point> playerPath = path.CellsAlongPath;
+
             int boxWidth = 50;
             int boxHeight = 50;
 
-            int gridWidth = 20;
-            int gridHeight = 20;
+            int minX = 0;
+            int maxX = 9;
+            int minY = 0;
+            int maxY = 9;
+
+            if (playerPath.Count > 1)
+            {
+                minX = Math.Min(minX, playerPath.Min(p => p.x));
+                minY = Math.Min(minY, playerPath.Min(p => p.y));
+                maxX = Math.Max(maxX, playerPath.Max(p => p.x));
+                maxY = Math.Max(maxY, playerPath.Max(p => p.y));
+            }
+
+
+            int gridWidth = maxX - minX + 1;
+            int gridHeight = maxY - minY + 1;
+
+            gridPanel.AutoScrollMinSize = new System.Drawing.Size(gridWidth*boxWidth, gridHeight*boxHeight);
 
             for (int i = 0; i < gridWidth; i++)
             {
@@ -375,12 +393,11 @@ namespace ProgrammingLearningApp
                 }
             }
 
-            graphics.DrawRectangle(redPen, new Rectangle(0, 0, boxWidth, boxHeight));
+            graphics.DrawRectangle(redPen, new Rectangle(-minX * boxWidth, -minY * boxHeight, boxWidth, boxHeight));
 
-            List<Point> playerPath = path.CellsAlongPath;
-
-            if (playerPath.Count > 1) {
-                graphics.DrawLines(purplePen, ParsePoints(playerPath, boxWidth, boxHeight));
+            if (playerPath.Count > 1)
+            {
+                graphics.DrawLines(purplePen, ParsePoints(playerPath, boxWidth, boxHeight, minX, minY));
             }
 
             switch (world.Character.ViewDirection)
@@ -397,16 +414,16 @@ namespace ProgrammingLearningApp
             }
 
             Point characterPosition = world.Character.Position;
-            graphics.DrawImage(image, new Rectangle(characterPosition.x * boxWidth, characterPosition.y * boxHeight, boxWidth, boxHeight));
+            graphics.DrawImage(image, new Rectangle((characterPosition.x - minX) * boxWidth, (characterPosition.y - minY) * boxHeight, boxWidth, boxHeight));
         }
 
-        PointF[] ParsePoints(List<Point> points, int boxWidth, int boxHeight)
+        PointF[] ParsePoints(List<Point> points, int boxWidth, int boxHeight, int minX, int minY)
         {
             List<PointF> output = new List<PointF>();
 
-            foreach(Point point in points)
+            foreach (Point point in points)
             {
-                output.Add(new PointF((point.x + 0.5f) * boxWidth, (point.y + 0.5f) * boxHeight));
+                output.Add(new PointF((point.x + 0.5f - minX) * boxWidth, (point.y + 0.5f - minY) * boxHeight));
             }
 
             return output.ToArray();
