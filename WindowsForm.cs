@@ -442,6 +442,12 @@ namespace ProgrammingLearningApp
             {
                 PathfindingExercise pathExercise = (PathfindingExercise)currentExercise;
                 graphics.FillRectangle(greenBrush, new Rectangle(pathExercise.Goal.x * boxWidth, pathExercise.Goal.y * boxHeight, boxWidth, boxHeight));
+
+                if(pathExercise.Goal == world.Character.Position)
+                {
+                    Form popUp = new Form();
+                    popUp.Show();
+                }
             }
 
 
