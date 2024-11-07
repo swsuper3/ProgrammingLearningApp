@@ -25,6 +25,7 @@ namespace ProgrammingLearningApp
         World world;
         Path path;
         Random random;
+        private ComboBox exerciseSelector;
         System.Windows.Forms.OpenFileDialog openFileDialog;
 
         public WindowsForm()
@@ -82,6 +83,7 @@ namespace ProgrammingLearningApp
             textBox1 = new TextBox();
             gridPanel = new Panel();
             title = new Label();
+            exerciseSelector = new ComboBox();
             SuspendLayout();
             // 
             // runButton
@@ -173,9 +175,9 @@ namespace ProgrammingLearningApp
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
             textBox1.PlaceholderText = "<Hint: Use Ctrl+i for Tabs>";
+            textBox1.ScrollBars = ScrollBars.Both;
             textBox1.Size = new System.Drawing.Size(463, 417);
             textBox1.TabIndex = 11;
-            textBox1.ScrollBars = ScrollBars.Both;
             // 
             // gridPanel
             // 
@@ -201,9 +203,21 @@ namespace ProgrammingLearningApp
             title.Text = "Programming Learning App";
             title.Click += label1_Click_1;
             // 
+            // exerciseSelector
+            // 
+            exerciseSelector.FormattingEnabled = true;
+            exerciseSelector.Items.AddRange(new object[] { "Free play", "From file..." });
+            exerciseSelector.Location = new System.Drawing.Point(12, 566);
+            exerciseSelector.Name = "exerciseSelector";
+            exerciseSelector.Size = new System.Drawing.Size(151, 28);
+            exerciseSelector.TabIndex = 14;
+            exerciseSelector.Text = "Select exercise";
+            exerciseSelector.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
             // WindowsForm
             // 
             ClientSize = new System.Drawing.Size(1115, 770);
+            Controls.Add(exerciseSelector);
             Controls.Add(title);
             Controls.Add(gridPanel);
             Controls.Add(textBox1);
@@ -411,7 +425,7 @@ namespace ProgrammingLearningApp
             int gridWidth = maxX - minX + 1;
             int gridHeight = maxY - minY + 1;
 
-            gridPanel.AutoScrollMinSize = new System.Drawing.Size(gridWidth*boxWidth, gridHeight*boxHeight);
+            gridPanel.AutoScrollMinSize = new System.Drawing.Size(gridWidth * boxWidth, gridHeight * boxHeight);
 
             for (int i = 0; i < gridWidth; i++)
             {
@@ -457,5 +471,9 @@ namespace ProgrammingLearningApp
             return output.ToArray();
         }
 
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
