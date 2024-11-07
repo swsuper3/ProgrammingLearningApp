@@ -288,6 +288,10 @@ namespace ProgrammingLearningApp
 
         private void runButton_Click(object sender, EventArgs e)
         {
+            this.world = new World();
+            this.path = new Path(world.Character);
+            this.world.Attach(this.path);
+
             // Parse the text from the textBox into a list
             string[] programText = textBox1.Text.Split("\r\n");
             List<string> programList = new List<string>();
@@ -473,6 +477,22 @@ namespace ProgrammingLearningApp
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+            if (exerciseSelector.SelectedIndex == 0) // Basic
+            {
+                //Clear current exercise
+            }
+
+            else if (exerciseSelector.SelectedIndex == 1) // Load FromFile 
+            {
+                string fileName = "../../../Programs/empty.txt";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    fileName = openFileDialog.FileName;
+
+                var sr = new StreamReader(fileName);
+                textBox1.Text = sr.ReadToEnd();
+            }
 
         }
     }
