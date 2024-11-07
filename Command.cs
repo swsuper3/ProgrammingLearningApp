@@ -127,6 +127,7 @@ namespace ProgrammingLearningApp
             while (Condition(world))
             {
                 programToRepeat.Execute(world);
+                amountOfRepeats++;
             }
         }
 

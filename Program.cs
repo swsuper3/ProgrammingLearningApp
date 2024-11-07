@@ -91,7 +91,21 @@
                             i++;
                         }
                         Program program = new Program(commands);
-                        command = new RepeatCommand(program, repeats);
+                        command = new RepeatTimesCommand(program, repeats);
+                        break;
+
+                    case "RepeatUntil":
+                        Condition condition = terms[1] == "WallAhead" ? Condition.WallAhead : Condition.GridEdge;
+                        List<string> commandsUntil = new List<string>();
+                        for (int j = i + 1; j < text.Count && text[j].StartsWith("\t"); j++)
+                        {
+                            commandsUntil.Add(text[j].Remove(0, 1));
+                            i++;
+                        }
+                        Program newProgram = new Program(commandsUntil);
+                        if (newProgram.commands[0] is not MoveCommand)
+                            throw new Exception("RepeatUntil commands must always be followed by a Move Command.");
+                        command = new LoopCommand(newProgram, condition);
                         break;
 
                     default:

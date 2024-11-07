@@ -34,7 +34,7 @@ namespace ProgrammingLearningApp
         /// <param name="amount"></param>
         public void MovePlayer(int amount)
         {
-            if (TryMove(amount, out Point destination))
+            if (TryMove(amount, out Point destination) || true)
                 character.SetPosition(new Point(destination.x, destination.y));
 
             Notify();
