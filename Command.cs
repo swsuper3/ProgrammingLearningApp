@@ -98,9 +98,8 @@ namespace ProgrammingLearningApp
         }
 
         /// <summary>
-        /// This method executes the program to repeat the amound of times necessary.
+        /// This method executes the program to repeat the amount of times necessary.
         /// </summary>
-        /// <param name="character"></param>
         public override void Execute(World world)
         {
             for (int i = 0; i < amountOfRepeats; i++)
@@ -111,22 +110,28 @@ namespace ProgrammingLearningApp
     }
 
 
-    public class LoopCommand : Command
+    public class LoopCommand : RepeatCommand
     {
-        Program programToRepeat;
+        Condition condition;
 
+        public LoopCommand(Program program, Condition condition) : base (program)
+        {
+            this.condition = condition;
+        }
 
+        /// <summary>
+        /// This method executes the program to repeat until the condition is met.
+        /// </summary>
         public override void Execute(World world)
         {
             throw new NotImplementedException();
         }
+    }
 
-
-        // 
-        public override string ToString()
-        {
-            return base.ToString();
-        }
+    public enum Condition
+    {
+        WallAhead,
+        GridEdge
     }
 
     public enum LeftRight {
