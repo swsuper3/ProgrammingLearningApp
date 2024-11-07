@@ -433,11 +433,13 @@ namespace ProgrammingLearningApp
             gridPanel.AutoScrollMinSize = new System.Drawing.Size(gridWidth * boxWidth, gridHeight * boxHeight);
 
 
+            //Drawing obstacles
             foreach (Point p in world.Obstacles)
             {
                 graphics.FillRectangle(orangeBrush, new Rectangle(p.x * boxWidth, p.y * boxHeight, boxWidth, boxHeight));
             }
 
+            //Drawing goal & checking for completion
             if (currentExercise != null)
             {
                 PathfindingExercise pathExercise = (PathfindingExercise)currentExercise;
@@ -455,7 +457,7 @@ namespace ProgrammingLearningApp
                 }
             }
 
-
+            //Draw grid
             for (int i = 0; i < gridWidth; i++)
             {
                 for (int j = 0; j < gridHeight; j++)
@@ -464,14 +466,17 @@ namespace ProgrammingLearningApp
                 }
             }
 
+            //Draw origin
             graphics.DrawRectangle(redPen, new Rectangle(-minX * boxWidth, -minY * boxHeight, boxWidth, boxHeight));
 
+            //Draw path
             if (playerPath.Count > 1)
             {
                 graphics.DrawLines(purplePen, ParsePoints(playerPath, boxWidth, boxHeight, minX, minY));
             }
 
 
+            //Draw player
             switch (world.Character.ViewDirection)
             {
                 case Direction.West:
