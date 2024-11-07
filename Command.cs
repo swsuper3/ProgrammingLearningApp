@@ -59,27 +59,14 @@ namespace ProgrammingLearningApp
         }
     }
 
-    public class RepeatCommand : Command
+    public abstract class RepeatCommand : Command
     {
-        Program programToRepeat;
-        int amountOfRepeats;
+        protected Program programToRepeat;
+        protected int amountOfRepeats;
 
-        public RepeatCommand(Program program, int repeats)
+        public RepeatCommand(Program program)
         {
             programToRepeat = program;
-            amountOfRepeats = repeats;
-        }
-
-        /// <summary>
-        /// This method executes the program to repeat the amound of times necessary.
-        /// </summary>
-        /// <param name="character"></param>
-        public override void Execute(World world)
-        {
-            for (int i = 0; i < amountOfRepeats; i++)
-            {
-                programToRepeat.Execute(world);
-            }
         }
 
         /// <summary>
@@ -96,12 +83,49 @@ namespace ProgrammingLearningApp
         public override string ToString()
         {
             List<string> programStrings = new List<string>();
-            for(int i = 0; i < amountOfRepeats; i++)
-            {
+            for (int i = 0; i < amountOfRepeats; i++)
                 programStrings.Add(programToRepeat.ToString());
-            }
 
             return string.Join(", ", programStrings);
+        }
+    }
+
+    public class RepeatTimesCommand : RepeatCommand
+    {
+        public RepeatTimesCommand(Program program, int repeats) : base (program)
+        {
+            amountOfRepeats = repeats;
+        }
+
+        /// <summary>
+        /// This method executes the program to repeat the amound of times necessary.
+        /// </summary>
+        /// <param name="character"></param>
+        public override void Execute(World world)
+        {
+            for (int i = 0; i < amountOfRepeats; i++)
+            {
+                programToRepeat.Execute(world);
+            }
+        }
+    }
+
+
+    public class LoopCommand : Command
+    {
+        Program programToRepeat;
+
+
+        public override void Execute(World world)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        // 
+        public override string ToString()
+        {
+            return base.ToString();
         }
     }
 
