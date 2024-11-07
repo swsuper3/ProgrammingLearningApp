@@ -13,7 +13,7 @@ namespace ProgrammingLearningApp
 
     public class MoveCommand : Command
     {
-        int amountToMove;
+        public int amountToMove;
 
         public MoveCommand(int amountToMove)
         {
@@ -124,8 +124,26 @@ namespace ProgrammingLearningApp
         /// </summary>
         public override void Execute(World world)
         {
-            throw new NotImplementedException();
+            while (Condition(world))
+            {
+                programToRepeat.Execute(world);
+            }
         }
+
+        /// <summary>
+        /// This method returns true if the condition is not satisfied, and returns false if it is
+        /// </summary>
+        private bool Condition(World world)
+        {
+            if (condition == ProgrammingLearningApp.Condition.WallAhead)
+                return WallAhead(world);
+            else
+                return GridEdge(world);
+        }
+
+        private bool WallAhead(World world) => world.TryMove(((MoveCommand)programToRepeat.Commands.First()).amountToMove, out Point destination);
+
+        private bool GridEdge(World world) => false;
     }
 
     public enum Condition

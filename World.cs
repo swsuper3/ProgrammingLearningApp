@@ -34,7 +34,19 @@ namespace ProgrammingLearningApp
         /// <param name="amount"></param>
         public void MovePlayer(int amount)
         {
-            Point destination = new Point();
+            if (TryMove(amount, out Point destination))
+                character.SetPosition(new Point(destination.x, destination.y));
+
+            Notify();
+        }
+
+
+        /// <summary>
+        /// This method attempts to move the character for a specified amount and returns whether it succeeded, while also returning the Point where the character would have stopped.
+        /// </summary>
+        public bool TryMove (int amount, out Point destination)
+        {
+            destination = new Point();
             for (int i = 0; i < amount; i++)
             {
                 switch (character.ViewDirection)
@@ -54,12 +66,10 @@ namespace ProgrammingLearningApp
                 }
 
                 if (!obstacles.Contains(destination))
-                {
-                    character.SetPosition(new Point(destination.x, destination.y));
-                }
+                    return false;
             }
 
-            Notify();
+            return true;
         }
 
         public void TurnPlayer(LeftRight leftRight)
