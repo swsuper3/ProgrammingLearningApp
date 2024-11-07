@@ -25,6 +25,7 @@ namespace ProgrammingLearningApp
         World world;
         Path path;
         Random random;
+        Exercise currentExercise;
         private ComboBox exerciseSelector;
         System.Windows.Forms.OpenFileDialog openFileDialog;
 
@@ -480,7 +481,7 @@ namespace ProgrammingLearningApp
 
             if (exerciseSelector.SelectedIndex == 0) // Basic
             {
-                //Clear current exercise
+                currentExercise = null;
             }
 
             else if (exerciseSelector.SelectedIndex == 1) // Load FromFile 
@@ -490,10 +491,13 @@ namespace ProgrammingLearningApp
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                     fileName = openFileDialog.FileName;
 
-                var sr = new StreamReader(fileName);
-                textBox1.Text = sr.ReadToEnd();
+                currentExercise = new PathfindingExercise(fileName);
             }
 
+            Refresh();
+            this.world = new World();
+            this.path = new Path(world.Character);
+            world.Attach(this.path);
         }
     }
 }
