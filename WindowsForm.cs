@@ -289,9 +289,7 @@ namespace ProgrammingLearningApp
 
         private void runButton_Click(object sender, EventArgs e)
         {
-            this.world = new World();
-            this.path = new Path(world.Character);
-            this.world.Attach(this.path);
+            Reset();
 
             // Parse the text from the textBox into a list
             string[] programText = textBox1.Text.Split("\r\n");
@@ -407,6 +405,8 @@ namespace ProgrammingLearningApp
             Pen blackPen = new Pen(Brushes.Black);
             Pen redPen = new Pen(Brushes.Red, 3f);
             Pen purplePen = new Pen(Brushes.Purple, 8f);
+            Brush orangeBrush = Brushes.OrangeRed;
+            Brush greenBrush = Brushes.Green;
 
             List<Point> playerPath = path.CellsAlongPath;
 
@@ -432,6 +432,19 @@ namespace ProgrammingLearningApp
 
             gridPanel.AutoScrollMinSize = new System.Drawing.Size(gridWidth * boxWidth, gridHeight * boxHeight);
 
+
+            foreach (Point p in world.Obstacles)
+            {
+                graphics.FillRectangle(orangeBrush, new Rectangle(p.x * boxWidth, p.y * boxHeight, boxWidth, boxHeight));
+            }
+
+            if (currentExercise != null)
+            {
+                PathfindingExercise pathExercise = (PathfindingExercise)currentExercise;
+                graphics.FillRectangle(greenBrush, new Rectangle(pathExercise.Goal.x * boxWidth, pathExercise.Goal.y * boxHeight, boxWidth, boxHeight));
+            }
+
+
             for (int i = 0; i < gridWidth; i++)
             {
                 for (int j = 0; j < gridHeight; j++)
@@ -446,6 +459,7 @@ namespace ProgrammingLearningApp
             {
                 graphics.DrawLines(purplePen, ParsePoints(playerPath, boxWidth, boxHeight, minX, minY));
             }
+
 
             switch (world.Character.ViewDirection)
             {
@@ -494,10 +508,26 @@ namespace ProgrammingLearningApp
                 currentExercise = new PathfindingExercise(fileName);
             }
 
-            Refresh();
+            Reset();
+        }
+
+        void Reset()
+        {
             this.world = new World();
             this.path = new Path(world.Character);
             world.Attach(this.path);
+
+            if (currentExercise != null)
+            {
+                PathfindingExercise pathExercise = (PathfindingExercise)currentExercise;
+                world.SetBounds(pathExercise.GridWidth, pathExercise.GridHeight);
+                foreach (Point p in pathExercise.Obstacles)
+                {
+                    world.AddObstacle(p);
+                }
+            }
+
+            Refresh();
         }
     }
 }

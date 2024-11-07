@@ -11,10 +11,12 @@ namespace ProgrammingLearningApp
         int gridWidth;
         int gridHeight;
         List<Point> obstacles;
+        Point goal;
 
         public int GridWidth { get { return gridWidth; } }
         public int GridHeight { get { return gridHeight; } }
         public List<Point> Obstacles { get { return obstacles; } }
+        public Point Goal { get { return goal; } }
 
         public PathfindingExercise(string fileName) : base(fileName) { }
 
@@ -32,6 +34,9 @@ namespace ProgrammingLearningApp
                     {
                         case '+':
                             obstacles.Add(new Point(i, j));
+                            break;
+                        case 'x':
+                            goal = new Point(i, j);
                             break;
                     }
                 }
