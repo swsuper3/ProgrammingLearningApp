@@ -26,6 +26,8 @@ namespace ProgrammingLearningApp
         Random random;
         Exercise currentExercise;
         private ComboBox exerciseSelector;
+        private Label loadProgramExplanation;
+        private Label label1;
         System.Windows.Forms.OpenFileDialog openFileDialog;
 
         public WindowsForm()
@@ -82,11 +84,13 @@ namespace ProgrammingLearningApp
             gridPanel = new Panel();
             title = new Label();
             exerciseSelector = new ComboBox();
+            loadProgramExplanation = new Label();
+            label1 = new Label();
             SuspendLayout();
             // 
             // runButton
             // 
-            runButton.BackColor = Color.ForestGreen;
+            runButton.BackColor = Color.Firebrick;
             runButton.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             runButton.Location = new System.Drawing.Point(219, 508);
             runButton.Name = "runButton";
@@ -98,7 +102,7 @@ namespace ProgrammingLearningApp
             // 
             // metricsButton
             // 
-            metricsButton.BackColor = Color.DodgerBlue;
+            metricsButton.BackColor = Color.CornflowerBlue;
             metricsButton.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             metricsButton.Location = new System.Drawing.Point(348, 508);
             metricsButton.Name = "metricsButton";
@@ -172,7 +176,7 @@ namespace ProgrammingLearningApp
             textBox1.Location = new System.Drawing.Point(220, 85);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "<Start programming here!>";
+            textBox1.PlaceholderText = "<Start programming here>";
             textBox1.ScrollBars = ScrollBars.Both;
             textBox1.Size = new System.Drawing.Size(463, 417);
             textBox1.TabIndex = 11;
@@ -193,12 +197,12 @@ namespace ProgrammingLearningApp
             // 
             title.AutoSize = true;
             title.Font = new Font("Segoe UI Black", 13.875F, System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic, GraphicsUnit.Point);
-            title.ForeColor = Color.DarkSlateGray;
+            title.ForeColor = Color.DarkRed;
             title.Location = new System.Drawing.Point(218, 17);
             title.Name = "title";
-            title.Size = new System.Drawing.Size(527, 50);
+            title.Size = new System.Drawing.Size(466, 50);
             title.TabIndex = 13;
-            title.Text = "Programming Learning App";
+            title.Text = "Program With Pac-Man!";
             title.Click += label1_Click_1;
             // 
             // exerciseSelector
@@ -207,14 +211,42 @@ namespace ProgrammingLearningApp
             exerciseSelector.Items.AddRange(new object[] { "Free play", "From file..." });
             exerciseSelector.Location = new System.Drawing.Point(12, 566);
             exerciseSelector.Name = "exerciseSelector";
-            exerciseSelector.Size = new System.Drawing.Size(151, 28);
+            exerciseSelector.Size = new System.Drawing.Size(200, 40);
             exerciseSelector.TabIndex = 14;
             exerciseSelector.Text = "Select exercise";
             exerciseSelector.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
+            // loadProgramExplanation
+            // 
+            loadProgramExplanation.AutoSize = true;
+            loadProgramExplanation.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            loadProgramExplanation.Font = new Font("Segoe UI", 7.875F, System.Drawing.FontStyle.Regular, GraphicsUnit.Point);
+            loadProgramExplanation.ForeColor = Color.DarkRed;
+            loadProgramExplanation.Location = new System.Drawing.Point(-6, 70);
+            loadProgramExplanation.Name = "loadProgramExplanation";
+            loadProgramExplanation.Size = new System.Drawing.Size(220, 120);
+            loadProgramExplanation.TabIndex = 15;
+            loadProgramExplanation.Text = "                ^\r\n Don't know where to\r\nstart? Load an existing\r\n       program here!\r\n";
+            loadProgramExplanation.Click += label1_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            label1.Font = new Font("Segoe UI", 7.875F, System.Drawing.FontStyle.Regular, GraphicsUnit.Point);
+            label1.ForeColor = Color.DarkRed;
+            label1.Location = new System.Drawing.Point(-2, 470);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(214, 90);
+            label1.TabIndex = 16;
+            label1.Text = "  Select an exercise or\r\n    return to freeplay!\r\n                v\r\n";
+            // 
             // WindowsForm
             // 
+            BackColor = System.Drawing.SystemColors.InactiveCaption;
             ClientSize = new System.Drawing.Size(1115, 770);
+            Controls.Add(label1);
+            Controls.Add(loadProgramExplanation);
             Controls.Add(exerciseSelector);
             Controls.Add(title);
             Controls.Add(gridPanel);
@@ -224,7 +256,7 @@ namespace ProgrammingLearningApp
             Controls.Add(runButton);
             Controls.Add(programSelecter);
             Name = "WindowsForm";
-            Text = "Programming Learning App";
+            Text = "Program With Pac-Man!";
             Load += WindowsForm_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -337,11 +369,11 @@ namespace ProgrammingLearningApp
 
             graphics.TranslateTransform(gridPanel.AutoScrollPosition.X, gridPanel.AutoScrollPosition.Y);
             Pen blackPen = new Pen(Brushes.Black);
-            Pen redPen = new Pen(Brushes.Red, 3f);
-            Pen purplePen = new Pen(Brushes.Purple, 8f);
-            Brush orangeBrush = Brushes.OrangeRed;
-            Brush darkOrangeBrush = Brushes.Chocolate;
-            Brush greenBrush = Brushes.Green;
+            Pen redPen = new Pen(Brushes.Firebrick, 3f);
+            Pen pathPen = new Pen(Brushes.DarkRed, 8f);
+            Brush wallBrush = Brushes.DarkSalmon;
+            Brush gridEdgeBrush = Brushes.IndianRed;
+            Brush goalBrush = Brushes.CadetBlue;
 
             List<Point> playerPath = path.CellsAlongPath;
 
@@ -368,25 +400,25 @@ namespace ProgrammingLearningApp
             gridPanel.AutoScrollMinSize = new System.Drawing.Size(gridWidth * boxWidth, gridHeight * boxHeight);
 
 
-            //Drawing obstacles: the grid edges with dark orange, the walls with oange, to provide a small distinction
+            //Drawing obstacles: the grid edges and the walls with different colors, to provide a small distinction
             foreach (KeyValuePair<Point, ObstacleType> obstacle in world.Obstacles)
             {
                 if (obstacle.Value == ObstacleType.Wall)
-                    graphics.FillRectangle(orangeBrush, new Rectangle(obstacle.Key.x * boxWidth, obstacle.Key.y * boxHeight, boxWidth, boxHeight));
+                    graphics.FillRectangle(wallBrush, new Rectangle(obstacle.Key.x * boxWidth, obstacle.Key.y * boxHeight, boxWidth, boxHeight));
                 else
-                    graphics.FillRectangle(darkOrangeBrush, new Rectangle(obstacle.Key.x * boxWidth, obstacle.Key.y * boxHeight, boxWidth, boxHeight));
+                    graphics.FillRectangle(gridEdgeBrush, new Rectangle(obstacle.Key.x * boxWidth, obstacle.Key.y * boxHeight, boxWidth, boxHeight));
             }
 
             //Drawing goal & checking for completion
             if (currentExercise != null)
             {
                 PathfindingExercise pathExercise = (PathfindingExercise)currentExercise;
-                graphics.FillRectangle(greenBrush, new Rectangle(pathExercise.Goal.x * boxWidth, pathExercise.Goal.y * boxHeight, boxWidth, boxHeight));
+                graphics.FillRectangle(goalBrush, new Rectangle(pathExercise.Goal.x * boxWidth, pathExercise.Goal.y * boxHeight, boxWidth, boxHeight));
 
-                if(pathExercise.Goal == world.Character.Position)
+                if (pathExercise.Goal == world.Character.Position)
                 {
                     Form popUp = new Form();
-                    popUp.Text = "you r did it";
+                    popUp.Text = "You did it!";
                     PictureBox pic = new PictureBox();
                     pic.ImageLocation = "https://static.wikia.nocookie.net/nintendo/images/6/60/Pikachu_%28Cap%29.png/revision/latest/scale-to-width/360?cb=20230203112812&path-prefix=en";
                     pic.Size = popUp.ClientSize;
@@ -410,7 +442,7 @@ namespace ProgrammingLearningApp
             //Draw path
             if (playerPath.Count > 1)
             {
-                graphics.DrawLines(purplePen, ParsePoints(playerPath, boxWidth, boxHeight, minX, minY));
+                graphics.DrawLines(pathPen, ParsePoints(playerPath, boxWidth, boxHeight, minX, minY));
             }
 
 
@@ -482,6 +514,11 @@ namespace ProgrammingLearningApp
             }
 
             Refresh();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
