@@ -315,6 +315,22 @@ namespace ProgrammingLearningApp
             }
 
             gridPanel.Invalidate();
+
+            if(currentExercise != null)
+            {
+                PathfindingExercise exercise = (PathfindingExercise)currentExercise;
+
+                if (exercise.Goal == world.Character.Position)
+                {
+                    Form popUp = new Form();
+                    popUp.Text = "You did it!";
+                    PictureBox pic = new PictureBox();
+                    pic.ImageLocation = "https://static.wikia.nocookie.net/nintendo/images/6/60/Pikachu_%28Cap%29.png/revision/latest/scale-to-width/360?cb=20230203112812&path-prefix=en";
+                    pic.Size = popUp.ClientSize;
+                    popUp.Controls.Add(pic);
+                    popUp.Show();
+                }
+            }
         }
 
         private void programSelecter_SelectedIndexChanged(object sender, EventArgs e)
@@ -449,16 +465,6 @@ namespace ProgrammingLearningApp
                 PathfindingExercise pathExercise = (PathfindingExercise)currentExercise;
                 graphics.FillRectangle(greenBrush, new Rectangle(pathExercise.Goal.x * boxWidth, pathExercise.Goal.y * boxHeight, boxWidth, boxHeight));
 
-                if(pathExercise.Goal == world.Character.Position)
-                {
-                    Form popUp = new Form();
-                    popUp.Text = "you r did it";
-                    PictureBox pic = new PictureBox();
-                    pic.ImageLocation = "https://static.wikia.nocookie.net/nintendo/images/6/60/Pikachu_%28Cap%29.png/revision/latest/scale-to-width/360?cb=20230203112812&path-prefix=en";
-                    pic.Size = popUp.ClientSize;
-                    popUp.Controls.Add(pic);
-                    popUp.Show();
-                }
             }
 
             //Draw grid
