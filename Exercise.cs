@@ -15,7 +15,7 @@ namespace ProgrammingLearningApp
             Parse(lines);
         }
 
-        public List<string> ReadFile(string fileName)
+        public virtual List<string> ReadFile(string fileName)
         {
             List<string> lines = new List<string>();
             StreamReader sr = new StreamReader(fileName);
@@ -32,7 +32,7 @@ namespace ProgrammingLearningApp
             return lines;
         }
 
-        protected abstract void Parse(List<string> lines);
+        public abstract void Parse(List<string> lines);
 
     }
 }

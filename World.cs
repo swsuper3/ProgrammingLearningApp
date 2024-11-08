@@ -103,9 +103,14 @@ namespace ProgrammingLearningApp
             for(int i = 0; i < gridWidth; i++)
             {
                 obstacles.Add(new Point(i, -1), ObstacleType.GridEdge);
-                obstacles.Add(new Point(-1, i), ObstacleType.GridEdge);
                 obstacles.Add(new Point(i, gridHeight), ObstacleType.GridEdge);
+            }
+
+            for(int i = 0; i < gridHeight; i++)
+            {
+                obstacles.Add(new Point(-1, i), ObstacleType.GridEdge);
                 obstacles.Add(new Point(gridWidth, i), ObstacleType.GridEdge);
+
             }
         }
 
