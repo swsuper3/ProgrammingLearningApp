@@ -274,7 +274,7 @@ namespace ProgrammingLearningApp
             }
             catch (Exception exception)
             {
-                output.Text = "Invalid program. Please check your syntax and try again.";
+                output.Text = "Invalid program. Please check your syntax and try again. Error: " + exception.Message;
                 Debug.WriteLine(exception.Message);
             }
 
