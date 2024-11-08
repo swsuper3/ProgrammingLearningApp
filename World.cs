@@ -17,6 +17,8 @@ namespace ProgrammingLearningApp
         public Character Character { get { return character; } }
         HashSet<Point> obstacles;
 
+        public HashSet<Point> Obstacles { get { return obstacles; } }
+
         private List<IMyObserver<Character>> observers = new List<IMyObserver<Character>>();
 
         public World(Character character, HashSet<Point> obstacles)

@@ -25,6 +25,8 @@ namespace ProgrammingLearningApp
         World world;
         Path path;
         Random random;
+        Exercise currentExercise;
+        private ComboBox exerciseSelector;
         System.Windows.Forms.OpenFileDialog openFileDialog;
 
         public WindowsForm()
@@ -82,6 +84,7 @@ namespace ProgrammingLearningApp
             textBox1 = new TextBox();
             gridPanel = new Panel();
             title = new Label();
+            exerciseSelector = new ComboBox();
             SuspendLayout();
             // 
             // runButton
@@ -176,7 +179,6 @@ namespace ProgrammingLearningApp
             textBox1.ScrollBars = ScrollBars.Both;
             textBox1.Size = new System.Drawing.Size(463, 417);
             textBox1.TabIndex = 11;
-            textBox1.TabStop = false;
             // 
             // gridPanel
             // 
@@ -202,9 +204,21 @@ namespace ProgrammingLearningApp
             title.Text = "Programming Learning App";
             title.Click += label1_Click_1;
             // 
+            // exerciseSelector
+            // 
+            exerciseSelector.FormattingEnabled = true;
+            exerciseSelector.Items.AddRange(new object[] { "Free play", "From file..." });
+            exerciseSelector.Location = new System.Drawing.Point(12, 566);
+            exerciseSelector.Name = "exerciseSelector";
+            exerciseSelector.Size = new System.Drawing.Size(151, 28);
+            exerciseSelector.TabIndex = 14;
+            exerciseSelector.Text = "Select exercise";
+            exerciseSelector.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
             // WindowsForm
             // 
             ClientSize = new System.Drawing.Size(1115, 770);
+            Controls.Add(exerciseSelector);
             Controls.Add(title);
             Controls.Add(gridPanel);
             Controls.Add(textBox1);
@@ -275,6 +289,8 @@ namespace ProgrammingLearningApp
 
         private void runButton_Click(object sender, EventArgs e)
         {
+            Reset();
+
             // Parse the text from the textBox into a list
             string[] programText = textBox1.Text.Split("\r\n");
             List<string> programList = new List<string>();
@@ -389,6 +405,8 @@ namespace ProgrammingLearningApp
             Pen blackPen = new Pen(Brushes.Black);
             Pen redPen = new Pen(Brushes.Red, 3f);
             Pen purplePen = new Pen(Brushes.Purple, 8f);
+            Brush orangeBrush = Brushes.OrangeRed;
+            Brush greenBrush = Brushes.Green;
 
             List<Point> playerPath = path.CellsAlongPath;
 
@@ -412,8 +430,34 @@ namespace ProgrammingLearningApp
             int gridWidth = maxX - minX + 1;
             int gridHeight = maxY - minY + 1;
 
-            gridPanel.AutoScrollMinSize = new System.Drawing.Size(gridWidth*boxWidth, gridHeight*boxHeight);
+            gridPanel.AutoScrollMinSize = new System.Drawing.Size(gridWidth * boxWidth, gridHeight * boxHeight);
 
+
+            //Drawing obstacles
+            foreach (Point p in world.Obstacles)
+            {
+                graphics.FillRectangle(orangeBrush, new Rectangle(p.x * boxWidth, p.y * boxHeight, boxWidth, boxHeight));
+            }
+
+            //Drawing goal & checking for completion
+            if (currentExercise != null)
+            {
+                PathfindingExercise pathExercise = (PathfindingExercise)currentExercise;
+                graphics.FillRectangle(greenBrush, new Rectangle(pathExercise.Goal.x * boxWidth, pathExercise.Goal.y * boxHeight, boxWidth, boxHeight));
+
+                if(pathExercise.Goal == world.Character.Position)
+                {
+                    Form popUp = new Form();
+                    popUp.Text = "you r did it";
+                    PictureBox pic = new PictureBox();
+                    pic.ImageLocation = "https://static.wikia.nocookie.net/nintendo/images/6/60/Pikachu_%28Cap%29.png/revision/latest/scale-to-width/360?cb=20230203112812&path-prefix=en";
+                    pic.Size = popUp.ClientSize;
+                    popUp.Controls.Add(pic);
+                    popUp.Show();
+                }
+            }
+
+            //Draw grid
             for (int i = 0; i < gridWidth; i++)
             {
                 for (int j = 0; j < gridHeight; j++)
@@ -422,13 +466,17 @@ namespace ProgrammingLearningApp
                 }
             }
 
+            //Draw origin
             graphics.DrawRectangle(redPen, new Rectangle(-minX * boxWidth, -minY * boxHeight, boxWidth, boxHeight));
 
+            //Draw path
             if (playerPath.Count > 1)
             {
                 graphics.DrawLines(purplePen, ParsePoints(playerPath, boxWidth, boxHeight, minX, minY));
             }
 
+
+            //Draw player
             switch (world.Character.ViewDirection)
             {
                 case Direction.West:
@@ -458,5 +506,44 @@ namespace ProgrammingLearningApp
             return output.ToArray();
         }
 
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (exerciseSelector.SelectedIndex == 0) // Basic
+            {
+                currentExercise = null;
+            }
+
+            else if (exerciseSelector.SelectedIndex == 1) // Load FromFile 
+            {
+                string fileName = "../../../Programs/empty.txt";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    fileName = openFileDialog.FileName;
+
+                currentExercise = new PathfindingExercise(fileName);
+            }
+
+            Reset();
+        }
+
+        void Reset()
+        {
+            this.world = new World();
+            this.path = new Path(world.Character);
+            world.Attach(this.path);
+
+            if (currentExercise != null)
+            {
+                PathfindingExercise pathExercise = (PathfindingExercise)currentExercise;
+                world.SetBounds(pathExercise.GridWidth, pathExercise.GridHeight);
+                foreach (Point p in pathExercise.Obstacles)
+                {
+                    world.AddObstacle(p);
+                }
+            }
+
+            Refresh();
+        }
     }
 }
