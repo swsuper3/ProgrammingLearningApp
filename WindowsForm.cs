@@ -21,7 +21,6 @@ namespace ProgrammingLearningApp
 
     public class WindowsForm : Form
     {
-        ProgramLoader programLoader;
         World world;
         Path path;
         Random random;
@@ -32,7 +31,6 @@ namespace ProgrammingLearningApp
         public WindowsForm()
         {
             InitializeComponent();
-            programLoader = new ProgramLoader();
             world = new World();
             random = new Random();
             openFileDialog = new System.Windows.Forms.OpenFileDialog()
@@ -59,7 +57,6 @@ namespace ProgrammingLearningApp
             System.Windows.Forms.Application.SetHighDpiMode(HighDpiMode.SystemAware);
         }
 
-        private List<CommandBlock> commandBlocks = new List<CommandBlock>();
         private ComboBox programSelecter;
         private Button metricsButton;
         private TextBox output;
@@ -233,39 +230,6 @@ namespace ProgrammingLearningApp
             PerformLayout();
         }
 
-
-
-        /// <summary>
-        /// This method is for a block-based interface.
-        /// </summary>
-        /// <param name="repeatAmount"></param>
-        private void AddTurnCommand(LeftRight leftRightDirection)
-        {
-            TurnCommandBlock turnCommandBlock = new TurnCommandBlock(leftRightDirection);
-            commandBlocks.Add(turnCommandBlock);
-            this.Controls.Add(turnCommandBlock);
-        }
-
-        /// <summary>
-        /// This method is for a block-based interface.
-        /// </summary>
-        /// <param name="repeatAmount"></param>
-        private void AddMoveCommand(int moveAmount)
-        {
-            MoveCommandBlock moveCommandBlock = new MoveCommandBlock(moveAmount);
-            commandBlocks.Add(moveCommandBlock);
-        }
-
-        /// <summary>
-        /// This method is for a block-based interface.
-        /// </summary>
-        /// <param name="repeatAmount"></param>
-        private void AddRepeatCommand(int repeatAmount)
-        {
-            RepeatCommandBlock repeatCommandBlock = new RepeatCommandBlock(repeatAmount);
-            commandBlocks.Add(repeatCommandBlock);
-        }
-
         private void metricsButton_Click(object sender, EventArgs e)
         {
             // Parse the text from the textBox into a list
@@ -343,11 +307,6 @@ namespace ProgrammingLearningApp
 
         }
 
-        private void grid_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
@@ -363,31 +322,6 @@ namespace ProgrammingLearningApp
 
         private void repeatCommand_Click(object sender, EventArgs e)
         {
-        }
-
-        private void command_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void program_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void label1_Click_1(object sender, EventArgs e)
