@@ -15,19 +15,19 @@ namespace ProgrammingLearningApp
     {
         Character character;
         public Character Character { get { return character; } }
-        HashSet<Point> obstacles;
+        Dictionary<Point, ObstacleType> obstacles;
 
-        public HashSet<Point> Obstacles { get { return obstacles; } }
+        public Dictionary<Point, ObstacleType> Obstacles { get { return obstacles; } }
 
         private List<IMyObserver<Character>> observers = new List<IMyObserver<Character>>();
 
-        public World(Character character, HashSet<Point> obstacles)
+        public World(Character character, Dictionary<Point, ObstacleType> obstacles)
         {
             this.character = character;
             this.obstacles = obstacles;
         }
 
-        public World(Character character) : this(character, new HashSet<Point>()) { }
+        public World(Character character) : this(character, new Dictionary<Point, ObstacleType>()) { }
 
         public World() : this(new Character()) { }
 
@@ -37,8 +37,8 @@ namespace ProgrammingLearningApp
         /// <param name="amount"></param>
         public void MovePlayer(int amount)
         {
-            if (TryMove(amount, out Point destination) || true)
-                character.SetPosition(new Point(destination.x, destination.y));
+            TryMove(amount, out Point destination, out Condition condition);
+            character.SetPosition(new Point(destination.x, destination.y));
 
             Notify();
         }
@@ -47,10 +47,11 @@ namespace ProgrammingLearningApp
         /// <summary>
         /// This method attempts to move the character for a specified amount and returns whether it succeeded, while also returning the Point where the character would have stopped.
         /// </summary>
-        public bool TryMove (int amount, out Point destination)
+        public void TryMove (int amount, out Point destination, out Condition occurredCondition)
         {
             destination = new Point(character.Position.x, character.Position.y);
             Point prevDestination = new Point();
+            occurredCondition = Condition.None;
 
             for (int i = 0; i < amount; i++)
             {
@@ -74,14 +75,17 @@ namespace ProgrammingLearningApp
 
                 // This conditional checked whether the destination is blocked by an obstacle.
                 // If so, the character would not move further, and the destination is set back by one, since otherwise the character would be in an obstacle.
-                if (obstacles.Contains(destination))
+                if (obstacles.ContainsKey(destination))
                 {
+                    if (obstacles[destination] == ObstacleType.Wall)
+                        occurredCondition = Condition.WallAhead;
+                    else
+                        occurredCondition = Condition.GridEdge;
+
                     destination = prevDestination;
-                    return false;
+                    break;
                 }
             }
-
-            return true;
         }
 
         public void TurnPlayer(LeftRight leftRight)
@@ -89,19 +93,19 @@ namespace ProgrammingLearningApp
             character.Turn(leftRight);
         }
 
-        public void AddObstacle(Point p)
+        public void AddObstacle(Point p, ObstacleType type)
         {
-            obstacles.Add(p);
+            obstacles.Add(p, type);
         }
 
         public void SetBounds(int gridWidth, int gridHeight)
         {
             for(int i = 0; i < gridWidth; i++)
             {
-                obstacles.Add(new Point(i, -1));
-                obstacles.Add(new Point(-1, i));
-                obstacles.Add(new Point(i, gridHeight));
-                obstacles.Add(new Point(gridWidth, i));
+                obstacles.Add(new Point(i, -1), ObstacleType.GridEdge);
+                obstacles.Add(new Point(-1, i), ObstacleType.GridEdge);
+                obstacles.Add(new Point(i, gridHeight), ObstacleType.GridEdge);
+                obstacles.Add(new Point(gridWidth, i), ObstacleType.GridEdge);
             }
         }
 
@@ -130,5 +134,11 @@ namespace ProgrammingLearningApp
                 observer.Update(this.character);
             }
         }
+    }
+
+    public enum ObstacleType
+    {
+        Wall,
+        GridEdge
     }
 }

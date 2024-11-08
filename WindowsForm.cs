@@ -406,6 +406,7 @@ namespace ProgrammingLearningApp
             Pen redPen = new Pen(Brushes.Red, 3f);
             Pen purplePen = new Pen(Brushes.Purple, 8f);
             Brush orangeBrush = Brushes.OrangeRed;
+            Brush darkOrangeBrush = Brushes.Chocolate;
             Brush greenBrush = Brushes.Green;
 
             List<Point> playerPath = path.CellsAlongPath;
@@ -433,10 +434,13 @@ namespace ProgrammingLearningApp
             gridPanel.AutoScrollMinSize = new System.Drawing.Size(gridWidth * boxWidth, gridHeight * boxHeight);
 
 
-            //Drawing obstacles
-            foreach (Point p in world.Obstacles)
+            //Drawing obstacles: the grid edges with dark orange, the walls with oange, to provide a small distinction
+            foreach (KeyValuePair<Point, ObstacleType> obstacle in world.Obstacles)
             {
-                graphics.FillRectangle(orangeBrush, new Rectangle(p.x * boxWidth, p.y * boxHeight, boxWidth, boxHeight));
+                if (obstacle.Value == ObstacleType.Wall)
+                    graphics.FillRectangle(orangeBrush, new Rectangle(obstacle.Key.x * boxWidth, obstacle.Key.y * boxHeight, boxWidth, boxHeight));
+                else
+                    graphics.FillRectangle(darkOrangeBrush, new Rectangle(obstacle.Key.x * boxWidth, obstacle.Key.y * boxHeight, boxWidth, boxHeight));
             }
 
             //Drawing goal & checking for completion
@@ -539,7 +543,7 @@ namespace ProgrammingLearningApp
                 world.SetBounds(pathExercise.GridWidth, pathExercise.GridHeight);
                 foreach (Point p in pathExercise.Obstacles)
                 {
-                    world.AddObstacle(p);
+                    world.AddObstacle(p, ObstacleType.Wall);
                 }
             }
 
