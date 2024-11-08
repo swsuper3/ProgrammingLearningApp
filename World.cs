@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,32 +37,51 @@ namespace ProgrammingLearningApp
         /// <param name="amount"></param>
         public void MovePlayer(int amount)
         {
-            Point destination = new Point();
+            if (TryMove(amount, out Point destination) || true)
+                character.SetPosition(new Point(destination.x, destination.y));
+
+            Notify();
+        }
+
+
+        /// <summary>
+        /// This method attempts to move the character for a specified amount and returns whether it succeeded, while also returning the Point where the character would have stopped.
+        /// </summary>
+        public bool TryMove (int amount, out Point destination)
+        {
+            destination = new Point(character.Position.x, character.Position.y);
+            Point prevDestination = new Point();
+
             for (int i = 0; i < amount; i++)
             {
+                prevDestination = destination;
+
                 switch (character.ViewDirection)
                 {
                     case Direction.North:
-                        destination = new Point(character.Position.x, character.Position.y - 1);
+                        destination.y -= 1;
                         break;
                     case Direction.East:
-                        destination = new Point(character.Position.x + 1, character.Position.y);
+                        destination.x += 1;
                         break;
                     case Direction.South:
-                        destination = new Point(character.Position.x, character.Position.y + 1);
+                        destination.y += 1;
                         break;
                     case Direction.West:
-                        destination = new Point(character.Position.x - 1, character.Position.y);
+                        destination.x -= 1;
                         break;
                 }
 
-                if (!obstacles.Contains(destination))
+                // This conditional checked whether the destination is blocked by an obstacle.
+                // If so, the character would not move further, and the destination is set back by one, since otherwise the character would be in an obstacle.
+                if (obstacles.Contains(destination))
                 {
-                    character.SetPosition(new Point(destination.x, destination.y));
+                    destination = prevDestination;
+                    return false;
                 }
             }
 
-            Notify();
+            return true;
         }
 
         public void TurnPlayer(LeftRight leftRight)

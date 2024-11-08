@@ -13,7 +13,7 @@ namespace ProgrammingLearningApp
 
     public class MoveCommand : Command
     {
-        int amountToMove;
+        public int amountToMove;
 
         public MoveCommand(int amountToMove)
         {
@@ -59,27 +59,14 @@ namespace ProgrammingLearningApp
         }
     }
 
-    public class RepeatCommand : Command
+    public abstract class RepeatCommand : Command
     {
-        Program programToRepeat;
-        int amountOfRepeats;
+        protected Program programToRepeat;
+        protected int amountOfRepeats;
 
-        public RepeatCommand(Program program, int repeats)
+        public RepeatCommand(Program program)
         {
             programToRepeat = program;
-            amountOfRepeats = repeats;
-        }
-
-        /// <summary>
-        /// This method executes the program to repeat the amound of times necessary.
-        /// </summary>
-        /// <param name="character"></param>
-        public override void Execute(World world)
-        {
-            for (int i = 0; i < amountOfRepeats; i++)
-            {
-                programToRepeat.Execute(world);
-            }
         }
 
         /// <summary>
@@ -96,13 +83,74 @@ namespace ProgrammingLearningApp
         public override string ToString()
         {
             List<string> programStrings = new List<string>();
-            for(int i = 0; i < amountOfRepeats; i++)
-            {
+            for (int i = 0; i < amountOfRepeats; i++)
                 programStrings.Add(programToRepeat.ToString());
-            }
 
             return string.Join(", ", programStrings);
         }
+    }
+
+    public class RepeatTimesCommand : RepeatCommand
+    {
+        public RepeatTimesCommand(Program program, int repeats) : base (program)
+        {
+            amountOfRepeats = repeats;
+        }
+
+        /// <summary>
+        /// This method executes the program to repeat the amount of times necessary.
+        /// </summary>
+        public override void Execute(World world)
+        {
+            for (int i = 0; i < amountOfRepeats; i++)
+            {
+                programToRepeat.Execute(world);
+            }
+        }
+    }
+
+
+    public class LoopCommand : RepeatCommand
+    {
+        Condition condition;
+
+        public LoopCommand(Program program, Condition condition) : base (program)
+        {
+            this.condition = condition;
+        }
+
+        /// <summary>
+        /// This method executes the program to repeat until the condition is met.
+        /// </summary>
+        public override void Execute(World world)
+        {
+            while (Condition(world))
+            {
+                programToRepeat.Execute(world);
+                amountOfRepeats++;
+            }
+        }
+
+        /// <summary>
+        /// This method returns true if the condition is not satisfied, and returns false if it is
+        /// </summary>
+        private bool Condition(World world)
+        {
+            if (condition == ProgrammingLearningApp.Condition.WallAhead)
+                return WallAhead(world);
+            else
+                return GridEdge(world);
+        }
+
+        private bool WallAhead(World world) => world.TryMove(((MoveCommand)programToRepeat.Commands.First()).amountToMove, out Point destination);
+
+        private bool GridEdge(World world) => false;
+    }
+
+    public enum Condition
+    {
+        WallAhead,
+        GridEdge
     }
 
     public enum LeftRight {
