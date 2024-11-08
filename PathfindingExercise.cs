@@ -20,7 +20,7 @@ namespace ProgrammingLearningApp
 
         public PathfindingExercise(string fileName) : base(fileName) { }
 
-        protected override void Parse(List<string> lines)
+        public override void Parse(List<string> lines)
         {
             gridWidth = lines.Max(x => x.Length);
             gridHeight = lines.Count;
