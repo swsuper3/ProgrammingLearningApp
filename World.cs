@@ -37,8 +37,8 @@ namespace ProgrammingLearningApp
         /// <param name="amount"></param>
         public void MovePlayer(int amount)
         {
-            if (TryMove(amount, out Point destination) || true)
-                character.SetPosition(new Point(destination.x, destination.y));
+            TryMove(amount, out Point destination, out Condition condition);
+            character.SetPosition(new Point(destination.x, destination.y));
 
             Notify();
         }
@@ -47,10 +47,11 @@ namespace ProgrammingLearningApp
         /// <summary>
         /// This method attempts to move the character for a specified amount and returns whether it succeeded, while also returning the Point where the character would have stopped.
         /// </summary>
-        public bool TryMove (int amount, out Point destination)
+        public void TryMove (int amount, out Point destination, out Condition occurredCondition)
         {
             destination = new Point(character.Position.x, character.Position.y);
             Point prevDestination = new Point();
+            occurredCondition = Condition.None;
 
             for (int i = 0; i < amount; i++)
             {
@@ -77,11 +78,10 @@ namespace ProgrammingLearningApp
                 if (obstacles.Contains(destination))
                 {
                     destination = prevDestination;
-                    return false;
+                    occurredCondition = Condition.WallAhead;
+                    break;
                 }
             }
-
-            return true;
         }
 
         public void TurnPlayer(LeftRight leftRight)

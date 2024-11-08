@@ -62,6 +62,11 @@ namespace ProgrammingLearningApp
     public abstract class RepeatCommand : Command
     {
         protected Program programToRepeat;
+        /// <summary>
+        /// This integer represents the amount of times the program repeats.
+        /// In the RepeatTimesCommand subclass, this is given when creating an instance of it.
+        /// In the LoopCommand subclass, this is calculated while performing the command.
+        /// </summary>
         protected int amountOfRepeats;
 
         public RepeatCommand(Program program)
@@ -124,7 +129,7 @@ namespace ProgrammingLearningApp
         /// </summary>
         public override void Execute(World world)
         {
-            while (Condition(world))
+            while (!Condition(world))
             {
                 programToRepeat.Execute(world);
                 amountOfRepeats++;
@@ -132,23 +137,19 @@ namespace ProgrammingLearningApp
         }
 
         /// <summary>
-        /// This method returns true if the condition is not satisfied, and returns false if it is
+        /// This method attempts to move the character one square, to see whether that cell is blocked by something.
+        /// It returns whether the specified condition is met.
         /// </summary>
         private bool Condition(World world)
         {
-            if (condition == ProgrammingLearningApp.Condition.WallAhead)
-                return WallAhead(world);
-            else
-                return GridEdge(world);
+            world.TryMove(1, out Point destination, out Condition occurredCondition);
+            return occurredCondition == condition;
         }
-
-        private bool WallAhead(World world) => world.TryMove(((MoveCommand)programToRepeat.Commands.First()).amountToMove, out Point destination);
-
-        private bool GridEdge(World world) => false;
     }
 
     public enum Condition
     {
+        None,
         WallAhead,
         GridEdge
     }

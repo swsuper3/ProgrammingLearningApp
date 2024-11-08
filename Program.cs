@@ -103,8 +103,6 @@
                             i++;
                         }
                         Program newProgram = new Program(commandsUntil);
-                        if (newProgram.commands[0] is not MoveCommand)
-                            throw new Exception("RepeatUntil commands must always be followed by a Move Command.");
                         command = new LoopCommand(newProgram, condition);
                         break;
 
