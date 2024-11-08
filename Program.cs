@@ -95,7 +95,14 @@
                         break;
 
                     case "RepeatUntil":
-                        Condition condition = terms[1] == "WallAhead" ? Condition.WallAhead : Condition.GridEdge;
+                        Condition condition;
+
+                        if (terms[1] == "WallAhead")
+                            condition = Condition.WallAhead;
+                        else if (terms[1] == "GridEdge")
+                            condition = Condition.GridEdge;
+                        else
+                            throw new Exception("Unknown condition: " + terms[1]);
                         List<string> commandsUntil = new List<string>();
                         for (int j = i + 1; j < text.Count && text[j].StartsWith("\t"); j++)
                         {
