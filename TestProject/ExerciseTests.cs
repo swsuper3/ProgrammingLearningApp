@@ -14,7 +14,7 @@ namespace TestProject
 
 
         [Fact]
-        public void OneByOneGrid()
+        public void OneByOneGrid_PathfindingEx()
         {
             //Arrange
             MockExercise exercise = new MockExercise("");
@@ -29,5 +29,48 @@ namespace TestProject
             //Assert
             Assert.Equal(expectedDimensions, actualDimensions);
         }
+
+        [Fact]
+        public void TallerThanWide_PathfindingEx()
+        {
+            //Arrange
+            MockExercise exercise = new MockExercise("");
+            Point expectedDimensions = new Point(2, 3);
+            List<string> grid = new List<string>
+            {
+                "++",
+                "++",
+                "++"
+            };
+
+            //Act
+            exercise.Parse(grid);
+            Point actualDimensions = new Point(exercise.GridWidth, exercise.GridHeight);
+
+            //Assert
+            Assert.Equal(expectedDimensions, actualDimensions);
+        }
+
+        [Fact]
+        public void WiderThanTall_PathfindingEx()
+        {
+            //Arrange
+            MockExercise exercise = new MockExercise("");
+            Point expectedDimensions = new Point(5, 3);
+            List<string> grid = new List<string>
+            {
+                "+++++",
+                "+++++",
+                "+++++"
+            };
+
+            //Act
+            exercise.Parse(grid);
+            Point actualDimensions = new Point(exercise.GridWidth, exercise.GridHeight);
+
+            //Assert
+            Assert.Equal(expectedDimensions, actualDimensions);
+        }
+
     }
 }
