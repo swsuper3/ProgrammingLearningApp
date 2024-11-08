@@ -525,7 +525,14 @@ namespace ProgrammingLearningApp
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                     fileName = openFileDialog.FileName;
 
-                currentExercise = new PathfindingExercise(fileName);
+                try
+                {
+                    currentExercise = new PathfindingExercise(fileName);
+                }
+                catch
+                {
+                    output.Text = "Invalid exercise.";
+                }
             }
 
             Reset();
