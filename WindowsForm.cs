@@ -113,7 +113,7 @@ namespace ProgrammingLearningApp
             programSelecter.Items.AddRange(new object[] { "Basic", "Advanced", "Expert", "From file..." });
             programSelecter.Location = new System.Drawing.Point(12, 27);
             programSelecter.Name = "programSelecter";
-            programSelecter.Size = new System.Drawing.Size(200, 28);
+            programSelecter.Size = new System.Drawing.Size(200, 40);
             programSelecter.TabIndex = 2;
             programSelecter.Text = "Load program";
             programSelecter.SelectedIndexChanged += programSelecter_SelectedIndexChanged;
@@ -172,10 +172,11 @@ namespace ProgrammingLearningApp
             textBox1.Location = new System.Drawing.Point(220, 85);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "<Hint: Use Ctrl+i for Tabs>";
+            textBox1.PlaceholderText = "<Start programming here!>";
+            textBox1.ScrollBars = ScrollBars.Both;
             textBox1.Size = new System.Drawing.Size(463, 417);
             textBox1.TabIndex = 11;
-            textBox1.ScrollBars = ScrollBars.Both;
+            textBox1.TabStop = false;
             // 
             // gridPanel
             // 
@@ -196,7 +197,7 @@ namespace ProgrammingLearningApp
             title.ForeColor = Color.DarkSlateGray;
             title.Location = new System.Drawing.Point(218, 17);
             title.Name = "title";
-            title.Size = new System.Drawing.Size(342, 32);
+            title.Size = new System.Drawing.Size(527, 50);
             title.TabIndex = 13;
             title.Text = "Programming Learning App";
             title.Click += label1_Click_1;
