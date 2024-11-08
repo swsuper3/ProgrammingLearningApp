@@ -11,6 +11,25 @@ namespace TestProject
     public class CommandTests
     {
         [Fact]
+        public void ValidCommand_HappyPath_ProgramParse()
+        {
+            //Arrange
+            List<string> validCommands = new List<string>();
+            validCommands.Add("Move 3");
+            Program p;
+
+            try
+            {
+                p = new Program(validCommands);
+            }
+            catch (Exception ex)
+            {
+                //Assert
+                Assert.Fail("No error was expected, but one was thrown: " + ex.Message);
+            }
+        }
+
+        [Fact]
         public void InvalidCommand_NotTwoWords_ProgramParse()
         {
             //Arrange
