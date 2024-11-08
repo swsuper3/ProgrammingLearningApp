@@ -26,4 +26,8 @@
     </COMReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Exercises\" />
+  </ItemGroup>
+
 </Project>
