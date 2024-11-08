@@ -126,14 +126,18 @@ namespace ProgrammingLearningApp
 
         /// <summary>
         /// This method executes the program to repeat until the condition is met.
+        /// It gives a timeout exception if the condition is not met within 1000 times of looping.
         /// </summary>
         public override void Execute(World world)
         {
-            while (!Condition(world))
+            while (!Condition(world) && amountOfRepeats <= 1000)
             {
                 programToRepeat.Execute(world);
                 amountOfRepeats++;
             }
+
+            if (amountOfRepeats > 1000)
+                throw new TimeoutException();
         }
 
         /// <summary>
