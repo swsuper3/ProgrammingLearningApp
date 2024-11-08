@@ -316,6 +316,7 @@ namespace ProgrammingLearningApp
 
             gridPanel.Invalidate();
 
+            //This block of code shows a popup if the exercise was completed by running the program
             if(currentExercise != null)
             {
                 PathfindingExercise exercise = (PathfindingExercise)currentExercise;
@@ -459,7 +460,7 @@ namespace ProgrammingLearningApp
                     graphics.FillRectangle(darkOrangeBrush, new Rectangle(obstacle.Key.x * boxWidth, obstacle.Key.y * boxHeight, boxWidth, boxHeight));
             }
 
-            //Drawing goal & checking for completion
+            //Drawing goal
             if (currentExercise != null)
             {
                 PathfindingExercise pathExercise = (PathfindingExercise)currentExercise;
@@ -519,7 +520,7 @@ namespace ProgrammingLearningApp
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            if (exerciseSelector.SelectedIndex == 0) // Basic
+            if (exerciseSelector.SelectedIndex == 0) // Free play
             {
                 currentExercise = null;
             }
@@ -544,6 +545,9 @@ namespace ProgrammingLearningApp
             Reset();
         }
 
+        /// <summary>
+        /// This method is used for setting important variables back to zero. Used when running a program again, for example.
+        /// </summary>
         void Reset()
         {
             this.world = new World();
