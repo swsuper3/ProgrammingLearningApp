@@ -1,0 +1,7 @@
+Turn right
+Move 3
+Turn left
+Move 1
+Move 1
+Move 2
+Turn right

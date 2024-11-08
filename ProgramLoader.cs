@@ -10,18 +10,22 @@ namespace ProgrammingLearningApp
     public class ProgramLoader
     {
         // These programs are hard-coded, so they do not get loaded in from a file, but are already defined.
+        // They are currently divided based on difficulty in threes.
         private List<Program> hardcodedPrograms;
 
         public ProgramLoader()
         {
             hardcodedPrograms = new List<Program>()
             {
-                new Program(new List<string>() {"Move 3", "Turn left", "Move 2", "Turn left", "Move 9"}),                          // 0 (beginner)
-                new Program(new List<string>() {"Turn right", "Turn right", "Move 5", "Turn left", "Move 2"}),                     // 1 (beginner)
-                new Program(new List<string>() {"Move 3", "Turn left", "Repeat 5", "\tMove 2", "\tTurn right", "Move 4"}),         // 2 (advanced)
-                new Program(new List<string>() {"Move 5", "Repeat 8", "\tTurn left", "Move 3", "Repeat 5", "\tTurn right"}),       // 3 (advanced)
-                new Program(new List<string>() {"Repeat 2", "\tRepeat 3", "\t\tTurn right", "\t\tMove 2", "Move 1"}),              // 4 (expert)
-                new Program(new List<string>() {"Turn right", "Repeat 3", "\tMove 5", "\tTurn left", "\tRepeat 1", "\t\tMove 2"})  // 5 (expert)
+                new Program(new List<string>() {"Move 3", "Turn left", "Move 2", "Turn left", "Move 9"}),                                      // 0 (beginner)
+                new Program(new List<string>() {"Turn right", "Turn right", "Move 5", "Turn left", "Move 2"}),                                 // 1 (beginner)
+                new Program(new List<string>() {"Move 2", "Move 1", "Turn right"}),                                                            // 2 (beginner)
+                new Program(new List<string>() {"Move 3", "Turn left", "Repeat 5", "\tMove 2", "\tTurn right", "Move 4"}),                     // 3 (advanced)
+                new Program(new List<string>() {"Move 5", "Repeat 8", "\tTurn left", "Move 3", "Repeat 5", "\tTurn right"}),                   // 4 (advanced)
+                new Program(new List<string>() {"RepeatUntil WallAhead", "\tMove 2", "Turn right", "RepeatUntil GridEdge", "\tMove 1"}),       // 5 (advanced)
+                new Program(new List<string>() {"Repeat 2", "\tRepeat 3", "\t\tTurn right", "\t\tMove 2", "Move 1"}),                          // 6 (expert)
+                new Program(new List<string>() {"Turn right", "Repeat 3", "\tMove 5", "\tTurn left", "\tRepeat 1", "\t\tMove 2"}),             // 7 (expert)
+                new Program(new List<string>() {"Repeat 2", "\tRepeatUntil GridEdge", "\t\tTurn left", "\t\tMove 3", "\tMove 1"})              // 8 (expert)
             };
         }
 

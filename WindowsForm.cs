@@ -286,13 +286,13 @@ namespace ProgrammingLearningApp
             string fileName = "../../../Programs/empty.txt";
 
             if (programSelecter.SelectedIndex == 0)      // Basic
-                fileName = "../../../Programs/basic" + random.Next(1, 3) + ".txt";
+                fileName = "../../../Programs/basic" + random.Next(1, 4) + ".txt";
 
             else if (programSelecter.SelectedIndex == 1) // Advanced
-                fileName = "../../../Programs/advanced" + random.Next(1, 3) + ".txt";
+                fileName = "../../../Programs/advanced" + random.Next(1, 4) + ".txt";
 
             else if (programSelecter.SelectedIndex == 2) // Expert
-                fileName = "../../../Programs/expert" + random.Next(1, 3) + ".txt";
+                fileName = "../../../Programs/expert" + random.Next(1, 4) + ".txt";
 
             else if (programSelecter.SelectedIndex == 3) // Load FromFile
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
